@@ -1,13 +1,17 @@
 import React from 'react';
-
-import { Container, Icon } from './styles';
+import { useTranslation } from 'react-i18next';
+import { Container, Icon, IconContainer } from './styles';
 
 function Header() {
+  const { t } = useTranslation('common');
   return (
     <Container>
-      <Icon href="/">
-        Squad Management Tool
-      </Icon>
+      <IconContainer href="/">
+        <Icon alt="icon" />
+        {
+          t('title')
+        }
+      </IconContainer>
     </Container>
   );
 }

@@ -1,16 +1,37 @@
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
-import BaseLayout from '~/containers/BaseLayout';
+import { I18nextProvider } from 'react-i18next';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from 'react-router-dom';
+import BaseLayout from '~/containers/MyAccount';
+import Home from '~/containers/Home';
+import i18n from '~/i18n';
 import Global from '~/theme/global';
 import Theme from '~/theme/theme';
 
 function App() {
   return (
     <>
-      <ThemeProvider theme={Theme}>
-        <Global />
-        <BaseLayout />
-      </ThemeProvider>
+      <I18nextProvider i18n={i18n}>
+        <ThemeProvider theme={Theme}>
+          <Global />
+          <Router>
+            <Switch>
+              <Route exact path="/">
+                <Home />
+              </Route>
+              <Route exact path="/my-account">
+                <BaseLayout />
+              </Route>
+              <Redirect to="/" />
+            </Switch>
+          </Router>
+        </ThemeProvider>
+      </I18nextProvider>
     </>
   );
 }
