@@ -52,7 +52,7 @@ function List({ list, children }) {
 }
 
 List.propTypes = {
-  children: PropTypes.element.isRequired,
+  children: PropTypes.element,
   list: PropTypes.arrayOf(
     PropTypes.shape({
       selected: PropTypes.bool,
@@ -60,7 +60,11 @@ List.propTypes = {
       value: PropTypes.string,
       label: PropTypes.string,
     }),
-  ).isRequired,
+  ),
+};
+
+List.defaultProps = {
+  list: [],
 };
 
 export default List;

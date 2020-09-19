@@ -1,17 +1,20 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Header from '~/components/Header';
+import { useTranslation } from 'react-i18next';
+import Header from 'components/Header';
 
 function Home() {
+  const { t } = useTranslation('home');
+
   return (
     <>
       <Header />
       <ul>
         <li>
-          <Link to="/">Home</Link>
+          <Link to="/">{t('home')}</Link>
         </li>
         <li>
-          <Link to="/my-account">Minha Conta</Link>
+          <Link to="/my-account">{t('my_account')}</Link>
         </li>
       </ul>
     </>

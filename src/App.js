@@ -7,12 +7,12 @@ import {
   Route,
   Redirect,
 } from 'react-router-dom';
-import BaseLayout from '~/containers/MyAccount';
-import Team from '~/containers/Team';
-import Home from '~/containers/Home';
-import i18n from '~/i18n';
-import Global from '~/theme/global';
-import Theme from '~/theme/theme';
+import BaseLayout from './containers/MyAccount';
+import Team from './containers/Team';
+import Home from './containers/Home';
+import Global from './theme/global';
+import Theme from './theme/theme';
+import i18n from './i18n';
 
 function App() {
   return (

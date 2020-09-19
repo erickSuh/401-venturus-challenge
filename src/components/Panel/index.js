@@ -32,10 +32,14 @@ function Panel({
 }
 
 Panel.propTypes = {
-  children: PropTypes.element.isRequired,
-  header: PropTypes.string.isRequired,
-  headerComponent: PropTypes.node.isRequired,
-  style: PropTypes.object.isRequired,
+  children: PropTypes.element,
+  header: PropTypes.string,
+  headerComponent: PropTypes.node,
+  style: PropTypes.object,
+};
+
+Panel.defaultProps = {
+  header: '',
 };
 
 export default Panel;

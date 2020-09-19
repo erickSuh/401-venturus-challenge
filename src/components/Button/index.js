@@ -15,10 +15,14 @@ function Button({
 }
 
 Button.propTypes = {
-  label: PropTypes.string.isRequired,
-  disabled: PropTypes.bool.isRequired,
-  children: PropTypes.element.isRequired,
-  onClick: PropTypes.func.isRequired,
+  label: PropTypes.string,
+  disabled: PropTypes.bool,
+  children: PropTypes.element,
+  onClick: PropTypes.func,
+};
+
+Button.defaultProp = {
+  disabled: false,
 };
 
 export default Button;

@@ -26,8 +26,8 @@ function Select({
 }
 
 Select.propTypes = {
-  children: PropTypes.element.isRequired,
-  onChange: PropTypes.func.isRequired,
+  children: PropTypes.element,
+  onChange: PropTypes.func,
   list: PropTypes.arrayOf(
     PropTypes.shape({
       selected: PropTypes.bool,
@@ -35,8 +35,12 @@ Select.propTypes = {
       value: PropTypes.string,
       label: PropTypes.string,
     }),
-  ).isRequired,
-  style: PropTypes.object.isRequired,
+  ),
+  style: PropTypes.object,
+};
+
+Select.defaultProps = {
+  list: [],
 };
 
 export default Select;

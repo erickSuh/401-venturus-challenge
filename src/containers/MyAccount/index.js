@@ -1,14 +1,14 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
-import Header from '~/components/Header';
-import Panel from '~/components/Panel';
-import Select from '~/components/Select';
-import List from '~/components/List';
-import Button from '~/components/Button';
-import Placeholder from '~/components/Placeholder';
-import BaseLayout from '~/components/BaseLayout';
-import BaseColumn from '~/components/BaseColumn';
+import Header from 'components/Header';
+import Panel from 'components/Panel';
+import Select from 'components/Select';
+import List from 'components/List';
+import Button from 'components/Button';
+import Placeholder from 'components/Placeholder';
+import BaseLayout from 'components/BaseLayout';
+import BaseColumn from 'components/BaseColumn';
 
 function MyAccount() {
   const { t } = useTranslation('my_account');

@@ -7,5 +7,9 @@
   },
   "my_account": {
     "my_teams": "My teams"
+  },
+  "home": {
+    "home": "Home",
+    "my_account": "My Account"
   }
 }

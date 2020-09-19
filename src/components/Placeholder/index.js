@@ -12,7 +12,7 @@ function Placeholder({ height }) {
 }
 
 Placeholder.propTypes = {
-  height: PropTypes.number.isRequired,
+  height: PropTypes.number,
 };
 
 export default Placeholder;

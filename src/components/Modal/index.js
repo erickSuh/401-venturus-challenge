@@ -23,10 +23,14 @@ function Modal({
 }
 
 Modal.propTypes = {
-  children: PropTypes.element.isRequired,
-  style: PropTypes.object.isRequired,
-  isOpen: PropTypes.bool.isRequired,
-  onClickAway: PropTypes.func.isRequired,
+  children: PropTypes.element,
+  style: PropTypes.object,
+  isOpen: PropTypes.bool,
+  onClickAway: PropTypes.func,
+};
+
+Modal.defaultProps = {
+  isOpen: false,
 };
 
 export default Modal;

@@ -8,8 +8,8 @@ function BaseLayout({ style, children }) {
 }
 
 BaseLayout.propTypes = {
-  children: PropTypes.element.isRequired,
-  style: PropTypes.object.isRequired,
+  children: PropTypes.element,
+  style: PropTypes.object,
 };
 
 export default BaseLayout;
