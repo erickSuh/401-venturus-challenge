@@ -10,12 +10,12 @@ function List({ list, children }) {
   const renderList = useCallback(() => {
     if (list) {
       return list.map((item) => (
-        <Item>
+        <Item key={item.value}>
           <NameContainer>
             {item.label}
           </NameContainer>
           <DescriptionContainer>
-            {item.label}
+            {item.description}
           </DescriptionContainer>
           <Options>
             <div className="tooltip">
@@ -59,6 +59,7 @@ List.propTypes = {
       key: PropTypes.string,
       value: PropTypes.string,
       label: PropTypes.string,
+      description: PropTypes.string,
     }),
   ),
 };

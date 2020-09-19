@@ -4,12 +4,12 @@ import PropTypes from 'prop-types';
 import { Container } from './styles';
 
 function Select({
-  list, children, onChange, style,
+  value, list, children, onChange, style,
 }) {
   const renderList = useCallback(() => {
     if (list) {
       return list.map((item) => (
-        <option key={item.key} value={item.value} selected={item.selected}>{item.label}</option>
+        <option key={item.key} value={item.value}>{item.label}</option>
       ));
     }
     return null;
@@ -17,7 +17,7 @@ function Select({
 
   return (
     <Container style={style}>
-      <select onChange={onChange}>
+      <select value={value} onChange={onChange}>
         {renderList()}
         {children}
       </select>
@@ -28,9 +28,9 @@ function Select({
 Select.propTypes = {
   children: PropTypes.element,
   onChange: PropTypes.func,
+  value: PropTypes.string,
   list: PropTypes.arrayOf(
     PropTypes.shape({
-      selected: PropTypes.bool,
       key: PropTypes.string,
       value: PropTypes.string,
       label: PropTypes.string,
