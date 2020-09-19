@@ -1,7 +1,9 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { Container, Item, Options } from './styles';
+import {
+  Container, Item, Options, NameContainer, DescriptionContainer,
+} from './styles';
 
 function List({ list, children }) {
   const { t } = useTranslation('common');
@@ -9,7 +11,12 @@ function List({ list, children }) {
     if (list) {
       return list.map((item) => (
         <Item>
-          {item.label}
+          <NameContainer>
+            {item.label}
+          </NameContainer>
+          <DescriptionContainer>
+            {item.label}
+          </DescriptionContainer>
           <Options>
             <div className="tooltip">
               <span className="tooltiptext">{t('delete')}</span>

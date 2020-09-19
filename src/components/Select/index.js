@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 
 import { Container } from './styles';
 
-function Select({ list, children, onChange }) {
+function Select({
+  list, children, onChange, style,
+}) {
   const renderList = useCallback(() => {
     if (list) {
       return list.map((item) => (
@@ -14,7 +16,7 @@ function Select({ list, children, onChange }) {
   }, [list]);
 
   return (
-    <Container>
+    <Container style={style}>
       <select onChange={onChange}>
         {renderList()}
         {children}
@@ -34,6 +36,7 @@ Select.propTypes = {
       label: PropTypes.string,
     }),
   ).isRequired,
+  style: PropTypes.object.isRequired,
 };
 
 export default Select;

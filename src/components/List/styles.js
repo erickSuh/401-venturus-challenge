@@ -1,5 +1,17 @@
 import styled from 'styled-components';
 
+const InfoBase = styled.div`
+  font-size: 16px;
+`;
+
+export const NameContainer = styled(InfoBase)`
+  width: 35%;
+`;
+
+export const DescriptionContainer = styled(InfoBase)`
+  width: 100%;
+`;
+
 export const Container = styled.ul`
   list-style-type: none;
 `;
@@ -11,7 +23,6 @@ export const Item = styled.li`
   width: 100%;
   padding: 8px;
   border-radius: 8px;
-  font-size: 16px;
   transition: all 0.3s linear;
   min-height: 40px;
 

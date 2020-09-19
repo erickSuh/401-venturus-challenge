@@ -6,6 +6,7 @@ export const Container = styled.div`
   min-height: 50px;
   box-shadow: rgba(0, 0, 0, 0.5) 0px 0px 3px 0;
   width: 100%;
+  margin: 16px;
 `;
 
 export const HeaderContainer = styled.div`

@@ -2,7 +2,9 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Container, HeaderContainer, Content } from './styles';
 
-function Panel({ children, headerComponent, header }) {
+function Panel({
+  children, headerComponent, header, style,
+}) {
   const componentHeader = useCallback(() => {
     if (header) {
       return (
@@ -18,7 +20,7 @@ function Panel({ children, headerComponent, header }) {
   }, [header, headerComponent]);
 
   return (
-    <Container>
+    <Container style={style}>
       {
         componentHeader()
       }
@@ -29,10 +31,11 @@ function Panel({ children, headerComponent, header }) {
   );
 }
 
-export default Panel;
-
 Panel.propTypes = {
   children: PropTypes.element.isRequired,
   header: PropTypes.string.isRequired,
   headerComponent: PropTypes.node.isRequired,
+  style: PropTypes.object.isRequired,
 };
+
+export default Panel;
