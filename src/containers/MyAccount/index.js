@@ -1,17 +1,25 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useHistory } from 'react-router-dom';
 import Header from '~/components/Header';
 import Panel from '~/components/Panel';
 import Select from '~/components/Select';
 import List from '~/components/List';
 import Button from '~/components/Button';
 import Placeholder from '~/components/Placeholder';
-import { Container, Column } from './styles';
+import BaseLayout from '~/components/BaseLayout';
+import BaseColumn from '~/components/BaseColumn';
 
 function MyAccount() {
   const { t } = useTranslation('my_account');
+  const history = useHistory();
+
+  const handleCreate = () => {
+    history.push('/team');
+  };
+
   const headerComponent = (
-    <Button>
+    <Button onClick={handleCreate}>
       <span className="material-icons">
         add
       </span>
@@ -25,10 +33,10 @@ function MyAccount() {
     key: 'teste 3', label: 'teste 3', value: 'teste 3', selected: false,
   }];
   return (
-    <h2>
+    <>
       <Header />
-      <Container>
-        <Column>
+      <BaseLayout>
+        <BaseColumn>
           <Panel header={t('my_teams')} headerComponent={headerComponent}>
             <div className="row">
               <Select list={mockList} style={{ width: '30%' }} />
@@ -36,17 +44,17 @@ function MyAccount() {
             </div>
             <List list={mockList} />
           </Panel>
-        </Column>
-        <Column>
+        </BaseColumn>
+        <BaseColumn>
           <Panel>
             <Placeholder height="350px" />
           </Panel>
           <Panel>
             <Placeholder height="300px" />
           </Panel>
-        </Column>
-      </Container>
-    </h2>
+        </BaseColumn>
+      </BaseLayout>
+    </>
   );
 }
 

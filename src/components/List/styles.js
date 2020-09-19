@@ -25,6 +25,7 @@ export const Item = styled.li`
   border-radius: 8px;
   transition: all 0.3s linear;
   min-height: 40px;
+  font-weight: 550;
 
   &:hover {
     padding: 8px;
