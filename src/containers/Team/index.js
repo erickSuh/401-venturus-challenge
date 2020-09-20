@@ -1,7 +1,8 @@
-import React, { useMemo, useState } from 'react';
+/* eslint-disable eqeqeq */
+import React, { useMemo, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams, useRouteMatch } from 'react-router-dom';
 import { debounce } from 'lodash';
 
 import Header from 'components/Header';
@@ -23,6 +24,7 @@ import { Container, SubHeader } from './styles';
 function Team() {
   const { t } = useTranslation('team');
   const user = useSelector((store) => (store.user));
+  const { id } = useParams();
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -35,7 +37,7 @@ function Team() {
   const [isValidType, setIsValidType] = useState(true);
 
   const checkNameValid = (st, teamsList) => st.length > 0
-  && !teamsList.filter((team) => (team.name === st)).length;
+  && !teamsList.find((team) => (team.name === st && team.id != id));
 
   const checkAllFieldsValid = () => checkNameValid(name, user.teams)
   && websiteValidator(website);
@@ -81,9 +83,13 @@ function Team() {
       return;
     }
 
-    dispatch(userAddTeam({
-      name, description, website,
-    }));
+    if (id) {
+      // TODO call edit
+    } else {
+      dispatch(userAddTeam({
+        name, description, website,
+      }));
+    }
     history.push('/my-account');
   };
 
@@ -93,6 +99,19 @@ function Team() {
   {
     id: 'rad_fantasy', key: 'rad_fantasy', name: 'team_fantasy', value: 'fantasy', label: 'Fantasy',
   }]), []);
+
+  useEffect(() => {
+    if (id) {
+      // TODO call api
+      const findTeam = user.teams.find((team) => (team.id == id));
+
+      setName(findTeam.name);
+      setDescription(findTeam.description);
+      setWebsite(findTeam.website);
+      setType(findTeam.type);
+      console.log('find', findTeam);
+    }
+  }, [id]);
 
   return (
     <>

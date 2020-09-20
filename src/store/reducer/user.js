@@ -1,10 +1,10 @@
 const INITIAL_STATE = {
   teams: [{
-    name: 'Name 1', description: 'description 1',
+    id: 1, name: 'Name 1', description: 'description 1',
   }, {
-    name: 'Name 2', description: 'description 2',
+    id: 2, name: 'Name 2', description: 'description 2',
   }, {
-    name: 'Name 3', description: 'description 3',
+    id: 3, name: 'Name 3', description: 'description 3',
   }],
 };
 

@@ -4,6 +4,7 @@ import { CustomTextarea, Container, Label } from './styles';
 
 function TextArea({
   id,
+  value,
   label,
   type,
   role,
@@ -24,6 +25,7 @@ function TextArea({
       </Label>
       <CustomTextarea
         id={id}
+        value={value}
         role={role}
         type={type}
         row={row}
@@ -40,6 +42,7 @@ function TextArea({
 
 TextArea.propTypes = {
   id: PropTypes.string,
+  value: PropTypes.string,
   label: PropTypes.string,
   type: PropTypes.string,
   role: PropTypes.string,

@@ -22,6 +22,9 @@ function Routes() {
         <Route exact path="/team">
           <Team />
         </Route>
+        <Route exact path="/team/:id">
+          <Team />
+        </Route>
         <Redirect to="/" />
       </Switch>
     </Router>

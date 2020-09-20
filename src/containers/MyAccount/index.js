@@ -40,12 +40,13 @@ function MyAccount() {
 
   useEffect(() => {
     if (user.teams) {
-      const list = user.teams.map((team, i) => ({
-        id: `${team.name}_${i}`,
-        key: `${team.name}_${i}`,
+      const list = user.teams.map((team) => ({
+        id: team.id,
+        key: team.id,
         label: team.name,
         description: team.description,
         onDelete: () => { dispatch(userRemoveTeam(team.name)); },
+        onEdit: () => { history.push(`/team/${team.id}`); },
       }));
       sortTeams(list);
       setTeams(list);

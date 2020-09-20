@@ -24,15 +24,15 @@ function List({ list, children }) {
                 delete
               </span>
             </button>
-            <button type="button" className="tooltip" onClick={item.onEdit}>
+            <button type="button" className="tooltip" onClick={item.onShare}>
               <span className="tooltiptext">{t('share')}</span>
-              <span title={t('delete')} className="material-icons">
+              <span title={t('share')} className="material-icons">
                 share
               </span>
             </button>
-            <button type="button" className="tooltip" onClick={item.onShare}>
+            <button type="button" className="tooltip" onClick={item.onEdit}>
               <span className="tooltiptext">{t('edit')}</span>
-              <span title={t('delete')} className="material-icons">
+              <span title={t('edit')} className="material-icons">
                 edit
               </span>
             </button>
