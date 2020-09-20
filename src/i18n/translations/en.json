@@ -1,0 +1,15 @@
+{
+  "common": {
+    "title": "Squad Management Tool",
+    "delete": "Delete",
+    "share": "Share",
+    "edit": "Edit"
+  },
+  "my_account": {
+    "my_teams": "My teams"
+  },
+  "home": {
+    "home": "Home",
+    "my_account": "My Account"
+  }
+}

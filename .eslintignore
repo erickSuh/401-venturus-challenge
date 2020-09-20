@@ -1,0 +1,6 @@
+__test__
+*.lock
+*.json
+*.md
+*.svg
+*.css
