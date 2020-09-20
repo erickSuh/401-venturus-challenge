@@ -22,7 +22,7 @@ function ListRadio({
       ));
     }
     return null;
-  }, [list, value]);
+  }, [list, value, onChange]);
 
   return (
     <Container id={id} style={style}>

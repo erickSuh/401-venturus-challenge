@@ -21,8 +21,8 @@ function MyAccount() {
   const dispatch = useDispatch();
 
   const [teams, setTeams] = useState([]);
-  const [filterName, setFilterName] = useState('-1');
-  const [filterDescription, setFilterDescription] = useState('-1');
+  const [filterName] = useState('-1');
+  const [filterDescription] = useState('-1');
 
   useEffect(() => {
     if (user.teams) {
@@ -35,7 +35,7 @@ function MyAccount() {
       }));
       setTeams(list);
     }
-  }, [user.teams]);
+  }, [user.teams, dispatch]);
 
   const handleCreate = () => {
     history.push('/team');
