@@ -41,7 +41,7 @@ function List({ list, children }) {
       ));
     }
     return null;
-  }, [list]);
+  }, [list, t]);
 
   return (
     <Container>
