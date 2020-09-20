@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Container, List } from './styles';
 
 function ListRadio({
-  id, list, header, value, onChange, style, children,
+  id, list, header, value, onChange, style, children, invalid,
 }) {
   const renderList = useCallback(() => {
     if (list) {
@@ -13,7 +13,7 @@ function ListRadio({
           <input
             id={item.id}
             type="radio"
-            value="Other"
+            value={item.value}
             checked={item.value === value}
             onChange={onChange}
           />
@@ -25,9 +25,9 @@ function ListRadio({
   }, [list, value, onChange]);
 
   return (
-    <Container id={id} style={style}>
+    <Container invalid={invalid} id={id} style={style}>
       <h3>{header}</h3>
-      <List>
+      <List invalid={invalid}>
         {renderList()}
         {children}
       </List>
@@ -47,6 +47,7 @@ ListRadio.propTypes = {
       label: PropTypes.string,
     }),
   ),
+  invalid: PropTypes.bool,
   header: PropTypes.string,
   onChange: PropTypes.func,
   style: PropTypes.object,

@@ -31,12 +31,23 @@ function Team() {
   const [description, setDescription] = useState('');
   const [website, setWebsite] = useState('');
   const [isValidWebsite, setIsValidWebsite] = useState(true);
+  const [type, setType] = useState();
+  const [isValidType, setIsValidType] = useState(true);
+
+  const checkNameValid = (st, teamsList) => st.length > 0
+  && !teamsList.filter((team) => (team.name === st)).length;
+
+  const checkAllFieldsValid = () => checkNameValid(name, user.teams)
+  && websiteValidator(website);
 
   const debounceNameCheckIsValid = debounce((st, teamsList) => {
-    setIsValidName(st.length > 0 && !teamsList.filter((team) => (team.name === st)).length);
+    setIsValidName(checkNameValid(st, teamsList));
   }, 1000);
 
   const debounceWebsiteCheckIsValid = debounce((st) => {
+    if (st.length === 0) {
+      setIsValidWebsite(true);
+    }
     setIsValidWebsite(websiteValidator(st));
   }, 1000);
 
@@ -50,14 +61,25 @@ function Team() {
   };
 
   const handleChangeWebsite = (e) => {
-    setWebsite(e.target.value);
+    const string = e.target.value.replaceAll(' ', '');
+    setWebsite(string);
     debounceWebsiteCheckIsValid(e.target.value);
+  };
+
+  const handleOnChangeType = (e) => {
+    if (!isValidType) setIsValidType(true);
+    setType(e.target.value);
   };
 
   const handleSave = (e) => {
     e.preventDefault();
 
-    if (!isValidName && !isValidWebsite) return;
+    if (!checkAllFieldsValid()) {
+      setIsValidName(checkNameValid(name, user.teams));
+      setIsValidWebsite(websiteValidator(website));
+      setIsValidType(!!type);
+      return;
+    }
 
     dispatch(userAddTeam({
       name, description, website,
@@ -106,10 +128,17 @@ function Team() {
                 placeholder={t('team_website_placeholder')}
                 value={website}
                 onChange={handleChangeWebsite}
-                type="email"
+                type="url"
                 label={t('team_website')}
+                invalid={!isValidWebsite}
               />
-              <ListRadio list={listRadio} header={t('team_type')} />
+              <ListRadio
+                list={listRadio}
+                value={type}
+                invalid={!isValidType}
+                header={t('team_type')}
+                onChange={handleOnChangeType}
+              />
             </BaseColumn>
           </Container>
 
