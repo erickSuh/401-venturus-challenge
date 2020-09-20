@@ -11,5 +11,15 @@
   "home": {
     "home": "Home",
     "my_account": "My Account"
+  },
+  "team": {
+    "create_your_team": "Create your team",
+    "team_information": "TEAM INFORMATION",
+    "team_name": "Team name",
+    "team_website": "Team website",
+    "team_description": "Description",
+    "team_type": "Team type",
+    "tags": "Tags",
+    "configure_squad": "CONFIGURE SQUAD"
   }
 }
