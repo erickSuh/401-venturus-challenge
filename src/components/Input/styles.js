@@ -24,6 +24,6 @@ export const CustomInput = styled.input`
   &:focus {
     outline: none;
     background: white;
-    border: 2px solid #dadada;
+    border: ${(props) => (props.invalid ? `2px solid ${props.theme.colors.invalid}` : '2px solid #dadada')};
   }
 `;

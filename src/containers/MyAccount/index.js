@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import Header from 'components/Header';
 import Panel from 'components/Panel';
@@ -12,10 +12,13 @@ import Placeholder from 'components/Placeholder';
 import BaseLayout from 'components/BaseLayout';
 import BaseColumn from 'components/BaseColumn';
 
+import { userRemoveTeam } from 'store/actions';
+
 function MyAccount() {
   const { t } = useTranslation('my_account');
   const user = useSelector((store) => (store.user));
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const [teams, setTeams] = useState([]);
   const [filterName, setFilterName] = useState('-1');
@@ -28,6 +31,7 @@ function MyAccount() {
         key: `${team.name}_${i}`,
         label: team.name,
         description: team.description,
+        onDelete: () => { dispatch(userRemoveTeam(team.name)); },
       }));
       setTeams(list);
     }

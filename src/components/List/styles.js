@@ -54,6 +54,11 @@ export const Options = styled.div`
   .tooltip {
     position: relative;
     display: inline-block;
+    border: none;
+
+    &:focus {
+      outline: none;
+    }
   }
 
   /* Tooltip text */

@@ -8,20 +8,12 @@ const INITIAL_STATE = {
   }],
 };
 
-// {
-//   teams: [{
-//     key: 'teste 1', label: 'teste 1', description: 'description 1', value: 'teste 1', selected: true,
-//   }, {
-//     key: 'teste 2', label: 'teste 2', description: 'description 2', value: 'teste 2', selected: false,
-//   }, {
-//     key: 'teste 3', label: 'teste 3', description: 'description 3', value: 'teste 3', selected: false,
-//   }],
-// }
-
 export default function teams(state = INITIAL_STATE, action) {
   switch (action.type) {
-    case 'TEAM_ADD':
+    case 'USER_ADD_TEAM':
       return { ...state, teams: [...state.teams, action.data] };
+    case 'USER_REMOVE_TEAM':
+      return { ...state, teams: state.teams.filter((team) => (team.name !== action.data)) };
     default:
       return state;
   }

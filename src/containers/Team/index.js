@@ -1,5 +1,8 @@
 import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { debounce } from 'lodash';
 
 import Header from 'components/Header';
 import BaseLayout from 'components/BaseLayout';
@@ -10,19 +13,56 @@ import Input from 'components/Input';
 import TextArea from 'components/TextArea';
 import Button from 'components/Button';
 import ListRadio from 'components/ListRadio';
+
+import { userAddTeam } from 'store/actions';
+
+import { websiteValidator } from 'utils/string';
+
 import { Container, SubHeader } from './styles';
 
 function Team() {
   const { t } = useTranslation('team');
+  const user = useSelector((store) => (store.user));
+  const history = useHistory();
+  const dispatch = useDispatch();
+
   const [name, setName] = useState('');
+  const [isValidName, setIsValidName] = useState(true);
+  const [description, setDescription] = useState('');
   const [website, setWebsite] = useState('');
+  const [isValidWebsite, setIsValidWebsite] = useState(true);
+
+  const debounceNameCheckIsValid = debounce((st, teamsList) => {
+    setIsValidName(st.length > 0 && !teamsList.filter((team) => (team.name === st)).length);
+  }, 1000);
+
+  const debounceWebsiteCheckIsValid = debounce((st) => {
+    setIsValidWebsite(websiteValidator(st));
+  }, 1000);
 
   const handleChangeName = (e) => {
     setName(e.target.value);
+    debounceNameCheckIsValid(e.target.value, user.teams);
+  };
+
+  const handleChangeDescription = (e) => {
+    setDescription(e.target.value);
   };
 
   const handleChangeWebsite = (e) => {
     setWebsite(e.target.value);
+    debounceWebsiteCheckIsValid(e.target.value);
+  };
+
+  const handleSave = (e) => {
+    e.preventDefault();
+
+    if (!isValidName && !isValidWebsite) return;
+
+    dispatch(userAddTeam({
+      name, description, website,
+    }));
+    history.push('/my-account');
   };
 
   const listRadio = useMemo(() => ([{
@@ -48,10 +88,12 @@ function Team() {
                 maxLength={50}
                 value={name}
                 onChange={handleChangeName}
+                invalid={!isValidName}
               />
               <TextArea
                 id="inp_team_description"
-                value={website}
+                value={description}
+                onChange={handleChangeDescription}
                 type="text"
                 label={t('team_description')}
                 resizable={false}
@@ -62,6 +104,7 @@ function Team() {
               <Input
                 id="inp_team_website"
                 placeholder={t('team_website_placeholder')}
+                value={website}
                 onChange={handleChangeWebsite}
                 type="email"
                 label={t('team_website')}
@@ -82,7 +125,7 @@ function Team() {
 
           <Container>
             <BaseColumn>
-              <Button label="Save" style={{ width: '100%' }} />
+              <Button onClick={handleSave} label="Save" style={{ width: '100%' }} />
             </BaseColumn>
             <BaseColumn />
           </Container>
