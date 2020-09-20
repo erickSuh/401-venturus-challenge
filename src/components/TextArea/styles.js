@@ -7,6 +7,7 @@ export const Container = styled.div`
 
 export const Label = styled.label`
   width: 100%;
+  font-weight: 600;
   color: ${(props) => (props.invalid ? props.theme.colors.invalid : '#aaa')};
 `;
 

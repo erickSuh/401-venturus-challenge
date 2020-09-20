@@ -6,7 +6,9 @@
     "edit": "Edit"
   },
   "my_account": {
-    "my_teams": "My teams"
+    "my_teams": "My teams",
+    "ascending": "Ascending",
+    "descending": "Descending"
   },
   "home": {
     "home": "Home",
@@ -16,6 +18,8 @@
     "create_your_team": "Create your team",
     "team_information": "TEAM INFORMATION",
     "team_name": "Team name",
+    "team_website_placeholder": "http://myteam.com",
+    "insert_team_name": "Insert team name",
     "team_website": "Team website",
     "team_description": "Description",
     "team_type": "Team type",

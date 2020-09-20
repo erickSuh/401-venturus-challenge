@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+
 import Header from 'components/Header';
 import Panel from 'components/Panel';
 import Select from 'components/Select';
@@ -12,7 +14,24 @@ import BaseColumn from 'components/BaseColumn';
 
 function MyAccount() {
   const { t } = useTranslation('my_account');
+  const user = useSelector((store) => (store.user));
   const history = useHistory();
+
+  const [teams, setTeams] = useState([]);
+  const [filterName, setFilterName] = useState('-1');
+  const [filterDescription, setFilterDescription] = useState('-1');
+
+  useEffect(() => {
+    if (user.teams) {
+      const list = user.teams.map((team, i) => ({
+        id: `${team.name}_${i}`,
+        key: `${team.name}_${i}`,
+        label: team.name,
+        description: team.description,
+      }));
+      setTeams(list);
+    }
+  }, [user.teams]);
 
   const handleCreate = () => {
     history.push('/team');
@@ -26,11 +45,18 @@ function MyAccount() {
     </Button>
   );
   const mockList = [{
-    key: 'teste 1', label: 'teste 1', value: 'teste 1', selected: true,
+    key: 'teste 1', label: t('ascending'), value: 'teste 1',
   }, {
-    key: 'teste 2', label: 'teste 2', value: 'teste 2', selected: false,
+    key: 'teste 2', label: t('descending'), value: 'teste 2',
   }, {
-    key: 'teste 3', label: 'teste 3', value: 'teste 3', selected: false,
+    key: 'teste 3', label: 'Name', value: '-1',
+  }];
+  const mockListDesc = [{
+    key: 'teste 1', label: t('ascending'), value: 'teste 1',
+  }, {
+    key: 'teste 2', label: t('descending'), value: 'teste 2',
+  }, {
+    key: 'teste 3', label: 'Description', value: '-1',
   }];
   return (
     <>
@@ -39,10 +65,10 @@ function MyAccount() {
         <BaseColumn>
           <Panel header={t('my_teams')} headerComponent={headerComponent}>
             <div className="row">
-              <Select list={mockList} style={{ width: '30%' }} />
-              <Select list={mockList} />
+              <Select value={filterName} list={mockList} style={{ width: '30%' }} />
+              <Select value={filterDescription} list={mockListDesc} />
             </div>
-            <List list={mockList} />
+            <List list={teams} />
           </Panel>
         </BaseColumn>
         <BaseColumn>

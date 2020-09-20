@@ -9,7 +9,9 @@ function Select({
   const renderList = useCallback(() => {
     if (list) {
       return list.map((item) => (
-        <option key={item.key} value={item.value}>{item.label}</option>
+        item.value !== '-1'
+          ? <option key={item.key} value={item.value}>{item.label}</option>
+          : <option key={item.key} value={item.value} disabled hidden>{item.label}</option>
       ));
     }
     return null;
@@ -17,7 +19,7 @@ function Select({
 
   return (
     <Container style={style}>
-      <select value={value} onChange={onChange}>
+      <select placeholder="teste" value={value} onChange={onChange}>
         {renderList()}
         {children}
       </select>

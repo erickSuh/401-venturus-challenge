@@ -4,6 +4,7 @@ import { CustomInput, Container, Label } from './styles';
 
 function Input({
   id,
+  value,
   label,
   type,
   role,
@@ -22,6 +23,7 @@ function Input({
       </Label>
       <CustomInput
         id={id}
+        value={value}
         role={role}
         type={type}
         placeholder={placeholder}
@@ -36,6 +38,7 @@ function Input({
 
 Input.propTypes = {
   id: PropTypes.string,
+  value: PropTypes.string,
   label: PropTypes.string,
   type: PropTypes.string,
   role: PropTypes.string,
