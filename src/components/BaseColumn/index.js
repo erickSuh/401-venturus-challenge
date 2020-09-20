@@ -3,12 +3,13 @@ import PropTypes from 'prop-types';
 
 import { Container } from './styles';
 
-function BaseColumn({ style, children }) {
-  return <Container style={style}>{children}</Container>;
+function BaseColumn({ style, children, className }) {
+  return <Container className={className} style={style}>{children}</Container>;
 }
 
 BaseColumn.propTypes = {
   children: PropTypes.element,
+  className: PropTypes.string,
   style: PropTypes.object,
 };
 

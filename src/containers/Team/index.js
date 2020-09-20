@@ -9,12 +9,17 @@ function Team() {
   return (
     <>
       <Header />
-      <BaseLayout>
-        <BaseColumn>
-          <Panel>
-            <Placeholder height="350px" />
-          </Panel>
-        </BaseColumn>
+      <BaseLayout className="fadeUp">
+        <Panel>
+          <div style={{ display: 'flex' }}>
+            <BaseColumn>
+              <Placeholder height="350px" />
+            </BaseColumn>
+            <BaseColumn>
+              <Placeholder height="350px" />
+            </BaseColumn>
+          </div>
+        </Panel>
       </BaseLayout>
     </>
   );

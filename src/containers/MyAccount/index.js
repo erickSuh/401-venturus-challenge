@@ -35,7 +35,7 @@ function MyAccount() {
   return (
     <>
       <Header />
-      <BaseLayout>
+      <BaseLayout className="fadeUp">
         <BaseColumn>
           <Panel header={t('my_teams')} headerComponent={headerComponent}>
             <div className="row">
