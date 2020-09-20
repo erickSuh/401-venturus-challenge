@@ -23,6 +23,10 @@ export default createGlobalStyle`
     font-size: 16px;
   }
 
+  label {
+    font-size: 14px;
+  }
+
   span {
     font-size: 12px;
   }

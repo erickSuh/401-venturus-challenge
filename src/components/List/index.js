@@ -18,24 +18,24 @@ function List({ list, children }) {
             {item.description}
           </DescriptionContainer>
           <Options>
-            <div className="tooltip">
+            <button type="button" className="tooltip" onClick={item.onDelete}>
               <span className="tooltiptext">{t('delete')}</span>
               <span className="material-icons">
                 delete
               </span>
-            </div>
-            <div className="tooltip">
+            </button>
+            <button type="button" className="tooltip" onClick={item.onEdit}>
               <span className="tooltiptext">{t('share')}</span>
               <span title={t('delete')} className="material-icons">
                 share
               </span>
-            </div>
-            <div className="tooltip">
+            </button>
+            <button type="button" className="tooltip" onClick={item.onShare}>
               <span className="tooltiptext">{t('edit')}</span>
               <span title={t('delete')} className="material-icons">
                 edit
               </span>
-            </div>
+            </button>
           </Options>
         </Item>
       ));
@@ -55,11 +55,13 @@ List.propTypes = {
   children: PropTypes.element,
   list: PropTypes.arrayOf(
     PropTypes.shape({
-      selected: PropTypes.bool,
       key: PropTypes.string,
       value: PropTypes.string,
       label: PropTypes.string,
       description: PropTypes.string,
+      onDelete: PropTypes.func,
+      onEdit: PropTypes.func,
+      onShare: PropTypes.func,
     }),
   ),
 };

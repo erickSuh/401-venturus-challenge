@@ -4,10 +4,10 @@ import PropTypes from 'prop-types';
 import { Container } from './styles';
 
 function Button({
-  label, disabled, onClick, children,
+  label, disabled, onClick, children, style,
 }) {
   return (
-    <Container disabled={disabled} onClick={onClick}>
+    <Container style={style} disabled={disabled} onClick={onClick}>
       {label}
       {children}
     </Container>
@@ -19,6 +19,7 @@ Button.propTypes = {
   disabled: PropTypes.bool,
   children: PropTypes.element,
   onClick: PropTypes.func,
+  style: PropTypes.object,
 };
 
 Button.defaultProp = {
