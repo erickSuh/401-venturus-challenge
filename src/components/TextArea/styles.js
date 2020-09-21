@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   width: 100%;
+  height: 100%;
   padding: 16px;
 `;
 
@@ -13,6 +14,7 @@ export const Label = styled.label`
 
 export const CustomTextarea = styled.textarea`
   width: 100%;
+  height: calc(100% - 20px);
   padding: 4px;
   font-size: 14px;
   background: none;

@@ -2,7 +2,7 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useParams, useRouteMatch } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { debounce } from 'lodash';
 
 import Header from 'components/Header';
@@ -14,9 +14,9 @@ import Input from 'components/Input';
 import TextArea from 'components/TextArea';
 import Button from 'components/Button';
 import ListRadio from 'components/ListRadio';
+import CustomTag from 'components/CustomTag';
 
 import { userAddTeam } from 'store/actions';
-
 import { websiteValidator } from 'utils/string';
 
 import { Container, SubHeader } from './styles';
@@ -35,6 +35,7 @@ function Team() {
   const [isValidWebsite, setIsValidWebsite] = useState(true);
   const [type, setType] = useState();
   const [isValidType, setIsValidType] = useState(true);
+  const [tags, setTags] = useState([]);
 
   const checkNameValid = (st, teamsList) => st.length > 0
   && !teamsList.find((team) => (team.name === st && team.id != id));
@@ -73,6 +74,12 @@ function Team() {
     setType(e.target.value);
   };
 
+  const handleOnChangeTags = (e) => {
+    if (e.target.value) {
+      setTags(e.target.value);
+    }
+  };
+
   const handleSave = (e) => {
     e.preventDefault();
 
@@ -87,7 +94,10 @@ function Team() {
       // TODO call edit
     } else {
       dispatch(userAddTeam({
-        name, description, website,
+        name,
+        description,
+        website,
+        tags: JSON.parse(tags).map((tag) => (tag.value)),
       }));
     }
     history.push('/my-account');
@@ -109,7 +119,7 @@ function Team() {
       setDescription(findTeam.description);
       setWebsite(findTeam.website);
       setType(findTeam.type);
-      console.log('find', findTeam);
+      setTags(findTeam.tags);
     }
   }, [id]);
 
@@ -158,6 +168,7 @@ function Team() {
                 header={t('team_type')}
                 onChange={handleOnChangeType}
               />
+              <CustomTag header={t('tags')} onChange={handleOnChangeTags} tags={tags} />
             </BaseColumn>
           </Container>
 
