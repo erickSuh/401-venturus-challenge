@@ -51,7 +51,14 @@ function MyAccount() {
       sortTeams(list);
       setTeams(list);
     }
-  }, [user.teams, dispatch, filterName, filterDescription]);
+  }, [
+    user.teams,
+    dispatch,
+    filterName,
+    filterDescription,
+    history,
+    sortTeams,
+  ]);
 
   const handleCreate = () => {
     history.push('/team');

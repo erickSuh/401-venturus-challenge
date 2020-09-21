@@ -121,7 +121,7 @@ function Team() {
       setType(findTeam.type);
       setTags(findTeam.tags);
     }
-  }, [id]);
+  }, [id, user.teams]);
 
   return (
     <>
