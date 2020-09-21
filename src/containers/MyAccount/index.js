@@ -24,21 +24,21 @@ function MyAccount() {
   const [filterName, setFilterName] = useState('-1');
   const [filterDescription, setFilterDescription] = useState('-1');
 
-  const sortTeams = (teamsList) => {
-    if (filterName === 'ascending') {
-      teamsList.sort((a, b) => a.label.localeCompare(b.label));
-    } else if (filterName === 'descending') {
-      teamsList.sort((a, b) => b.label.localeCompare(a.label));
-    }
-
-    if (filterDescription === 'ascending') {
-      teamsList.sort((a, b) => a.label.localeCompare(b.label));
-    } else if (filterDescription === 'descending') {
-      teamsList.sort((a, b) => b.label.localeCompare(a.label));
-    }
-  };
-
   useEffect(() => {
+    const sortTeams = (teamsList) => {
+      if (filterName === 'ascending') {
+        teamsList.sort((a, b) => a.label.localeCompare(b.label));
+      } else if (filterName === 'descending') {
+        teamsList.sort((a, b) => b.label.localeCompare(a.label));
+      }
+
+      if (filterDescription === 'ascending') {
+        teamsList.sort((a, b) => a.label.localeCompare(b.label));
+      } else if (filterDescription === 'descending') {
+        teamsList.sort((a, b) => b.label.localeCompare(a.label));
+      }
+    };
+
     if (user.teams) {
       const list = user.teams.map((team) => ({
         id: team.id,
@@ -57,7 +57,6 @@ function MyAccount() {
     filterName,
     filterDescription,
     history,
-    sortTeams,
   ]);
 
   const handleCreate = () => {
