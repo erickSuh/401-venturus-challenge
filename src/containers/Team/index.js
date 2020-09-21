@@ -1,7 +1,8 @@
-import React, { useMemo, useState } from 'react';
+/* eslint-disable eqeqeq */
+import React, { useMemo, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { debounce } from 'lodash';
 
 import Header from 'components/Header';
@@ -13,9 +14,9 @@ import Input from 'components/Input';
 import TextArea from 'components/TextArea';
 import Button from 'components/Button';
 import ListRadio from 'components/ListRadio';
+import CustomTag from 'components/CustomTag';
 
 import { userAddTeam } from 'store/actions';
-
 import { websiteValidator } from 'utils/string';
 
 import { Container, SubHeader } from './styles';
@@ -23,6 +24,7 @@ import { Container, SubHeader } from './styles';
 function Team() {
   const { t } = useTranslation('team');
   const user = useSelector((store) => (store.user));
+  const { id } = useParams();
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -31,12 +33,24 @@ function Team() {
   const [description, setDescription] = useState('');
   const [website, setWebsite] = useState('');
   const [isValidWebsite, setIsValidWebsite] = useState(true);
+  const [type, setType] = useState();
+  const [isValidType, setIsValidType] = useState(true);
+  const [tags, setTags] = useState([]);
+
+  const checkNameValid = (st, teamsList) => st.length > 0
+  && !teamsList.find((team) => (team.name === st && team.id != id));
+
+  const checkAllFieldsValid = () => checkNameValid(name, user.teams)
+  && websiteValidator(website);
 
   const debounceNameCheckIsValid = debounce((st, teamsList) => {
-    setIsValidName(st.length > 0 && !teamsList.filter((team) => (team.name === st)).length);
+    setIsValidName(checkNameValid(st, teamsList));
   }, 1000);
 
   const debounceWebsiteCheckIsValid = debounce((st) => {
+    if (st.length === 0) {
+      setIsValidWebsite(true);
+    }
     setIsValidWebsite(websiteValidator(st));
   }, 1000);
 
@@ -50,18 +64,42 @@ function Team() {
   };
 
   const handleChangeWebsite = (e) => {
-    setWebsite(e.target.value);
+    const string = e.target.value.replaceAll(' ', '');
+    setWebsite(string);
     debounceWebsiteCheckIsValid(e.target.value);
+  };
+
+  const handleOnChangeType = (e) => {
+    if (!isValidType) setIsValidType(true);
+    setType(e.target.value);
+  };
+
+  const handleOnChangeTags = (e) => {
+    if (e.target.value) {
+      setTags(e.target.value);
+    }
   };
 
   const handleSave = (e) => {
     e.preventDefault();
 
-    if (!isValidName && !isValidWebsite) return;
+    if (!checkAllFieldsValid()) {
+      setIsValidName(checkNameValid(name, user.teams));
+      setIsValidWebsite(websiteValidator(website));
+      setIsValidType(!!type);
+      return;
+    }
 
-    dispatch(userAddTeam({
-      name, description, website,
-    }));
+    if (id) {
+      // TODO call edit
+    } else {
+      dispatch(userAddTeam({
+        name,
+        description,
+        website,
+        tags: JSON.parse(tags).map((tag) => (tag.value)),
+      }));
+    }
     history.push('/my-account');
   };
 
@@ -71,6 +109,19 @@ function Team() {
   {
     id: 'rad_fantasy', key: 'rad_fantasy', name: 'team_fantasy', value: 'fantasy', label: 'Fantasy',
   }]), []);
+
+  useEffect(() => {
+    if (id) {
+      // TODO call api
+      const findTeam = user.teams.find((team) => (team.id == id));
+
+      setName(findTeam.name);
+      setDescription(findTeam.description);
+      setWebsite(findTeam.website);
+      setType(findTeam.type);
+      setTags(findTeam.tags);
+    }
+  }, [id, user.teams]);
 
   return (
     <>
@@ -106,10 +157,18 @@ function Team() {
                 placeholder={t('team_website_placeholder')}
                 value={website}
                 onChange={handleChangeWebsite}
-                type="email"
+                type="url"
                 label={t('team_website')}
+                invalid={!isValidWebsite}
               />
-              <ListRadio list={listRadio} header={t('team_type')} />
+              <ListRadio
+                list={listRadio}
+                value={type}
+                invalid={!isValidType}
+                header={t('team_type')}
+                onChange={handleOnChangeType}
+              />
+              <CustomTag header={t('tags')} onChange={handleOnChangeTags} tags={tags} />
             </BaseColumn>
           </Container>
 

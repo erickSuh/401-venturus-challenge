@@ -7,6 +7,7 @@ import Theme from './theme/theme';
 import store from './store';
 import i18n from './i18n';
 import Routes from './Routes';
+import '@yaireo/tagify/dist/tagify.css';
 
 function App() {
   return (

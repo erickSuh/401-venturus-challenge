@@ -21,24 +21,54 @@ function MyAccount() {
   const dispatch = useDispatch();
 
   const [teams, setTeams] = useState([]);
-  const [filterName] = useState('-1');
-  const [filterDescription] = useState('-1');
+  const [filterName, setFilterName] = useState('-1');
+  const [filterDescription, setFilterDescription] = useState('-1');
 
   useEffect(() => {
+    const sortTeams = (teamsList) => {
+      if (filterName === 'ascending') {
+        teamsList.sort((a, b) => a.label.localeCompare(b.label));
+      } else if (filterName === 'descending') {
+        teamsList.sort((a, b) => b.label.localeCompare(a.label));
+      }
+
+      if (filterDescription === 'ascending') {
+        teamsList.sort((a, b) => a.label.localeCompare(b.label));
+      } else if (filterDescription === 'descending') {
+        teamsList.sort((a, b) => b.label.localeCompare(a.label));
+      }
+    };
+
     if (user.teams) {
-      const list = user.teams.map((team, i) => ({
-        id: `${team.name}_${i}`,
-        key: `${team.name}_${i}`,
+      const list = user.teams.map((team) => ({
+        id: team.id,
+        key: team.id,
         label: team.name,
         description: team.description,
         onDelete: () => { dispatch(userRemoveTeam(team.name)); },
+        onEdit: () => { history.push(`/team/${team.id}`); },
       }));
+      sortTeams(list);
       setTeams(list);
     }
-  }, [user.teams, dispatch]);
+  }, [
+    user.teams,
+    dispatch,
+    filterName,
+    filterDescription,
+    history,
+  ]);
 
   const handleCreate = () => {
     history.push('/team');
+  };
+
+  const handleChangeNameFilter = (e) => {
+    setFilterName(e.target.value);
+  };
+
+  const handleChangeDescriptionFilter = (e) => {
+    setFilterDescription(e.target.value);
   };
 
   const headerComponent = (
@@ -49,16 +79,16 @@ function MyAccount() {
     </Button>
   );
   const mockList = [{
-    key: 'teste 1', label: t('ascending'), value: 'teste 1',
+    key: 'teste 1', label: t('ascending'), value: 'ascending',
   }, {
-    key: 'teste 2', label: t('descending'), value: 'teste 2',
+    key: 'teste 2', label: t('descending'), value: 'descending',
   }, {
     key: 'teste 3', label: 'Name', value: '-1',
   }];
   const mockListDesc = [{
-    key: 'teste 1', label: t('ascending'), value: 'teste 1',
+    key: 'teste 1', label: t('ascending'), value: 'ascending',
   }, {
-    key: 'teste 2', label: t('descending'), value: 'teste 2',
+    key: 'teste 2', label: t('descending'), value: 'descending',
   }, {
     key: 'teste 3', label: 'Description', value: '-1',
   }];
@@ -69,8 +99,17 @@ function MyAccount() {
         <BaseColumn>
           <Panel header={t('my_teams')} headerComponent={headerComponent}>
             <div className="row">
-              <Select value={filterName} list={mockList} style={{ width: '30%' }} />
-              <Select value={filterDescription} list={mockListDesc} />
+              <Select
+                value={filterName}
+                list={mockList}
+                onChange={handleChangeNameFilter}
+                style={{ width: '30%' }}
+              />
+              <Select
+                value={filterDescription}
+                list={mockListDesc}
+                onChange={handleChangeDescriptionFilter}
+              />
             </div>
             <List list={teams} />
           </Panel>
