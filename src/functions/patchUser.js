@@ -9,7 +9,7 @@ exports.handler = async (event, context, callback) => {
   try {
     const db = await connect();
     const user = db.collection('user');
-    const docs = await user.find({}).toArray();
+    const docs = await user.insertOne({}).toArray();
     response.body = JSON.stringify(docs);
   } catch (e) {
     response.statusCode = 500;

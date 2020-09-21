@@ -16,7 +16,7 @@ import Button from 'components/Button';
 import ListRadio from 'components/ListRadio';
 import CustomTag from 'components/CustomTag';
 
-import { userAddTeam } from 'store/actions';
+import { userAddTeam, userEditTeam } from 'store/actions';
 import { websiteValidator } from 'utils/string';
 
 import { Container, SubHeader } from './styles';
@@ -89,18 +89,29 @@ function Team() {
       setIsValidType(!!type);
       return;
     }
-
-    if (id) {
-      // TODO call edit
-    } else {
-      dispatch(userAddTeam({
-        name,
-        description,
-        website,
-        tags: JSON.parse(tags).map((tag) => (tag.value)),
-      }));
+    try {
+      if (id) {
+        dispatch(userEditTeam({
+          id: Number.parseInt(id, 10),
+          name,
+          description,
+          website,
+          tags,
+          type,
+        }));
+      } else {
+        dispatch(userAddTeam({
+          name,
+          description,
+          website,
+          type,
+          tags: JSON.parse(tags).map((tag) => (tag.value)),
+        }));
+      }
+      history.push('/my-account');
+    } catch (err) {
+      console.log(err.message);
     }
-    history.push('/my-account');
   };
 
   const listRadio = useMemo(() => ([{
