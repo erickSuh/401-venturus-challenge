@@ -11,7 +11,7 @@ import {
 
 function List({ list, children }) {
   const { t } = useTranslation("common");
-  const renderList = useCallback(() => {
+  const RenderList = useCallback(() => {
     if (list) {
       return list.map((item) => (
         <Item key={item.value}>
@@ -43,7 +43,7 @@ function List({ list, children }) {
 
   return (
     <Container>
-      {renderList()}
+      <RenderList />
       {children}
     </Container>
   );

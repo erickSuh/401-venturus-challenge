@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Container, HeaderContainer, Content } from "./styles";
 
 function Panel({ children, headerComponent, header, style }) {
-  const componentHeader = useCallback(() => {
+  const ComponentHeader = useCallback(() => {
     if (header) {
       return (
         <HeaderContainer>
@@ -17,7 +17,7 @@ function Panel({ children, headerComponent, header, style }) {
 
   return (
     <Container style={style}>
-      {componentHeader()}
+      <ComponentHeader />
       <Content>{children}</Content>
     </Container>
   );

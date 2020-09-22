@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { Container } from "./styles";
 
 function Select({ value, list, children, onChange, style }) {
-  const renderList = useCallback(() => {
+  const RenderList = useCallback(() => {
     if (list) {
       return list.map((item) =>
         item.value !== "-1" ? (
@@ -24,7 +24,7 @@ function Select({ value, list, children, onChange, style }) {
   return (
     <Container style={style}>
       <select placeholder="teste" value={value} onChange={onChange}>
-        {renderList()}
+        <RenderList />
         {children}
       </select>
     </Container>

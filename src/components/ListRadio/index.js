@@ -13,7 +13,7 @@ function ListRadio({
   children,
   invalid,
 }) {
-  const renderList = useCallback(() => {
+  const RenderList = useCallback(() => {
     if (list) {
       return list.map((item) => (
         <label htmlFor={item.id}>
@@ -35,7 +35,7 @@ function ListRadio({
     <Container invalid={invalid} id={id} style={style}>
       <h3>{header}</h3>
       <List invalid={invalid}>
-        {renderList()}
+        <RenderList />
         {children}
       </List>
     </Container>

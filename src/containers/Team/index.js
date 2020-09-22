@@ -1,5 +1,5 @@
 /* eslint-disable eqeqeq */
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useMemo, useState, useEffect, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
@@ -16,7 +16,7 @@ import Button from "components/Button";
 import ListRadio from "components/ListRadio";
 import CustomTag from "components/CustomTag";
 
-import { userAddTeam, userEditTeam } from "store/actions";
+import { actionUserAddTeam, actionUserEditTeam } from "store/actions";
 import { websiteValidator } from "utils/string";
 
 import { Container, SubHeader } from "./styles";
@@ -36,6 +36,7 @@ function Team() {
   const [type, setType] = useState();
   const [isValidType, setIsValidType] = useState(true);
   const [tags, setTags] = useState([]);
+  const [search, setSearch] = useState("");
 
   const checkNameValid = (st, teamsList) =>
     st.length > 0 &&
@@ -44,16 +45,23 @@ function Team() {
   const checkAllFieldsValid = () =>
     checkNameValid(name, user.teams) && websiteValidator(website);
 
-  const debounceNameCheckIsValid = debounce((st, teamsList) => {
-    setIsValidName(checkNameValid(st, teamsList));
-  }, 1000);
+  const debounceNameCheckIsValid = useCallback(
+    debounce(async (st, teamsList) => {
+      console.log("checando");
+      setIsValidName(checkNameValid(st, teamsList));
+    }, 1000),
+    []
+  );
 
-  const debounceWebsiteCheckIsValid = debounce((st) => {
-    if (st.length === 0) {
-      setIsValidWebsite(true);
-    }
-    setIsValidWebsite(websiteValidator(st));
-  }, 1000);
+  const debounceWebsiteCheckIsValid = useCallback(
+    debounce(async (st) => {
+      if (st.length === 0) {
+        setIsValidWebsite(true);
+      }
+      setIsValidWebsite(websiteValidator(st));
+    }, 1000),
+    []
+  );
 
   const handleChangeName = (e) => {
     setName(e.target.value);
@@ -76,7 +84,7 @@ function Team() {
   };
 
   const handleOnChangeTags = (e) => {
-    e.preventDefault();
+    e.persist();
     setTags(e.target.value);
   };
 
@@ -92,7 +100,7 @@ function Team() {
     try {
       if (id) {
         dispatch(
-          userEditTeam({
+          actionUserEditTeam({
             id: Number.parseInt(id, 10),
             name,
             description,
@@ -103,7 +111,7 @@ function Team() {
         );
       } else {
         dispatch(
-          userAddTeam({
+          actionUserAddTeam({
             name,
             description,
             website,
@@ -116,6 +124,10 @@ function Team() {
     } catch (err) {
       console.log(err.message);
     }
+  };
+
+  const handleChangeSearch = (e) => {
+    setSearch(e.target.value);
   };
 
   const listRadio = useMemo(
@@ -210,7 +222,14 @@ function Team() {
               <Placeholder height="350px" />
             </BaseColumn>
             <BaseColumn>
-              <Placeholder height="350px" />
+              <Input
+                id="inp_search_player"
+                placeholder=""
+                value={search}
+                onChange={handleChangeSearch}
+                type="text"
+                label={t("search_player")}
+              />
             </BaseColumn>
           </Container>
 

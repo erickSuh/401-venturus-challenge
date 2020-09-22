@@ -13,7 +13,7 @@ import BaseLayout from "components/BaseLayout";
 import BaseColumn from "components/BaseColumn";
 import UserPick from "components/UserPick";
 
-import { userRemoveTeam, playerFetch } from "store/actions";
+import { actionUserRemoveTeam, actionPlayerFetch } from "store/actions";
 
 const INITIAL_STATE_PICKED = {
   name: "",
@@ -61,7 +61,7 @@ function MyAccount() {
           label: team.name,
           description: team.description,
           onDelete: () => {
-            dispatch(userRemoveTeam(team.name));
+            dispatch(actionUserRemoveTeam(team.name));
           },
           onEdit: () => {
             history.push(`/team/${team.id}`);
@@ -74,7 +74,7 @@ function MyAccount() {
   }, [user.teams, dispatch, filterName, filterDescription, history]);
 
   useEffect(() => {
-    dispatch(playerFetch());
+    dispatch(actionPlayerFetch());
   }, [dispatch]);
 
   const handleCreate = () => {

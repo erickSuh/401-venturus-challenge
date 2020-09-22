@@ -26,6 +26,7 @@
     "team_description": "Description",
     "team_type": "Team type",
     "tags": "Tags",
-    "configure_squad": "CONFIGURE SQUAD"
+    "configure_squad": "CONFIGURE SQUAD",
+    "search_player": "Search players"
   }
 }

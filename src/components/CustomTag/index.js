@@ -1,24 +1,25 @@
-import React, { useEffect } from "react";
+import React, { useCallback } from "react";
 import PropTypes from "prop-types";
 import Tags from "@yaireo/tagify/dist/react.tagify";
 
 import { Container } from "./styles";
 
 function CustomTag({ tags, header, onChange }) {
-  const handleChange = (e) => {
-    e.persist();
-    onChange(e);
-  };
+  const CompTags = useCallback(
+    () => <Tags value={tags} onChange={onChange} />,
+    [tags, onChange]
+  );
+
   return (
     <Container>
       <h3>{header}</h3>
-      <Tags tags={tags} onChange={handleChange} />
+      <CompTags />
     </Container>
   );
 }
 
 CustomTag.propTypes = {
-  tags: PropTypes.arrayOf(PropTypes.string),
+  tags: PropTypes.string,
   header: PropTypes.string,
   onChange: PropTypes.func,
 };
