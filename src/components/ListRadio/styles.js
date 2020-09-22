@@ -1,11 +1,11 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const Container = styled.div`
   width: 100%;
   padding: 16px;
 
   h3 {
-    color: ${(props) => (props.invalid ? props.theme.colors.invalid : '#aaa')};
+    color: ${(props) => (props.invalid ? props.theme.colors.invalid : "#aaa")};
     font-size: 14px;
   }
 `;
@@ -18,7 +18,7 @@ export const List = styled.div`
   label {
     display: flex;
     align-items: center;
-    color: ${(props) => (props.invalid ? props.theme.colors.invalid : '#aaa')};
+    color: ${(props) => (props.invalid ? props.theme.colors.invalid : "#aaa")};
 
     &:not(:last-child) {
       margin-right: 40px;

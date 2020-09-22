@@ -1,38 +1,36 @@
-import React, { useCallback } from 'react';
-import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
+import React, { useCallback } from "react";
+import PropTypes from "prop-types";
+import { useTranslation } from "react-i18next";
 import {
-  Container, Item, Options, NameContainer, DescriptionContainer,
-} from './styles';
+  Container,
+  Item,
+  Options,
+  NameContainer,
+  DescriptionContainer,
+} from "./styles";
 
 function List({ list, children }) {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation("common");
   const renderList = useCallback(() => {
     if (list) {
       return list.map((item) => (
         <Item key={item.value}>
-          <NameContainer>
-            {item.label}
-          </NameContainer>
-          <DescriptionContainer>
-            {item.description}
-          </DescriptionContainer>
+          <NameContainer>{item.label}</NameContainer>
+          <DescriptionContainer>{item.description}</DescriptionContainer>
           <Options>
             <button type="button" className="tooltip" onClick={item.onDelete}>
-              <span className="tooltiptext">{t('delete')}</span>
-              <span className="material-icons">
-                delete
-              </span>
+              <span className="tooltiptext">{t("delete")}</span>
+              <span className="material-icons">delete</span>
             </button>
             <button type="button" className="tooltip" onClick={item.onShare}>
-              <span className="tooltiptext">{t('share')}</span>
-              <span title={t('share')} className="material-icons">
+              <span className="tooltiptext">{t("share")}</span>
+              <span title={t("share")} className="material-icons">
                 share
               </span>
             </button>
             <button type="button" className="tooltip" onClick={item.onEdit}>
-              <span className="tooltiptext">{t('edit')}</span>
-              <span title={t('edit')} className="material-icons">
+              <span className="tooltiptext">{t("edit")}</span>
+              <span title={t("edit")} className="material-icons">
                 edit
               </span>
             </button>
@@ -62,7 +60,7 @@ List.propTypes = {
       onDelete: PropTypes.func,
       onEdit: PropTypes.func,
       onShare: PropTypes.func,
-    }),
+    })
   ),
 };
 

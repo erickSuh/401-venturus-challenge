@@ -3,7 +3,9 @@
     "title": "Squad Management Tool",
     "delete": "Delete",
     "share": "Share",
-    "edit": "Edit"
+    "edit": "Edit",
+    "most_picked_player": "Most picked player",
+    "less_picked_player": "Less picked player"
   },
   "my_account": {
     "my_teams": "My teams",

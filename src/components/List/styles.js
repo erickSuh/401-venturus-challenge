@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const InfoBase = styled.div`
   font-size: 16px;
@@ -73,7 +73,7 @@ export const Options = styled.div`
     bottom: 110%;
     left: 50%;
     margin-left: -58px;
-  
+
     /* Position the tooltip text - see examples below! */
     position: absolute;
     z-index: 1;

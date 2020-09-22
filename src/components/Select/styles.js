@@ -1,10 +1,10 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const Container = styled.div`
   width: 100%;
   border-radius: 16px;
-  display:inline-block;
-  overflow:hidden;
+  display: inline-block;
+  overflow: hidden;
 
   select {
     width: 100%;

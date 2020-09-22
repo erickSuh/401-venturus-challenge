@@ -1,17 +1,13 @@
-import React, { useCallback } from 'react';
-import PropTypes from 'prop-types';
-import { Container, HeaderContainer, Content } from './styles';
+import React, { useCallback } from "react";
+import PropTypes from "prop-types";
+import { Container, HeaderContainer, Content } from "./styles";
 
-function Panel({
-  children, headerComponent, header, style,
-}) {
+function Panel({ children, headerComponent, header, style }) {
   const componentHeader = useCallback(() => {
     if (header) {
       return (
         <HeaderContainer>
-          <h1>
-            {header}
-          </h1>
+          <h1>{header}</h1>
           {headerComponent}
         </HeaderContainer>
       );
@@ -21,12 +17,8 @@ function Panel({
 
   return (
     <Container style={style}>
-      {
-        componentHeader()
-      }
-      <Content>
-        {children}
-      </Content>
+      {componentHeader()}
+      <Content>{children}</Content>
     </Container>
   );
 }
@@ -39,7 +31,7 @@ Panel.propTypes = {
 };
 
 Panel.defaultProps = {
-  header: '',
+  header: "",
 };
 
 export default Panel;

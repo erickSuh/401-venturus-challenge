@@ -1,10 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
-import { Container } from './styles';
+import { Container } from "./styles";
 
 function BaseColumn({ style, children, className }) {
-  return <Container className={className} style={style}>{children}</Container>;
+  return (
+    <Container className={className} style={style}>
+      {children}
+    </Container>
+  );
 }
 
 BaseColumn.propTypes = {

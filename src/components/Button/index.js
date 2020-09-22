@@ -1,11 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
-import { Container } from './styles';
+import { Container } from "./styles";
 
-function Button({
-  label, disabled, onClick, children, style,
-}) {
+function Button({ label, disabled, onClick, children, style }) {
   return (
     <Container style={style} disabled={disabled} onClick={onClick}>
       {label}

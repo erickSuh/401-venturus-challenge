@@ -1,16 +1,14 @@
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { Container, Icon, IconContainer } from './styles';
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { Container, Icon, IconContainer } from "./styles";
 
 function Header() {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation("common");
   return (
     <Container>
       <IconContainer href="/">
         <Icon alt="icon" />
-        {
-          t('title')
-        }
+        {t("title")}
       </IconContainer>
     </Container>
   );

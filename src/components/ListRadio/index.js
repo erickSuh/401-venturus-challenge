@@ -1,10 +1,17 @@
-import React, { useCallback } from 'react';
-import PropTypes from 'prop-types';
+import React, { useCallback } from "react";
+import PropTypes from "prop-types";
 
-import { Container, List } from './styles';
+import { Container, List } from "./styles";
 
 function ListRadio({
-  id, list, header, value, onChange, style, children, invalid,
+  id,
+  list,
+  header,
+  value,
+  onChange,
+  style,
+  children,
+  invalid,
 }) {
   const renderList = useCallback(() => {
     if (list) {
@@ -45,7 +52,7 @@ ListRadio.propTypes = {
       name: PropTypes.string,
       value: PropTypes.string,
       label: PropTypes.string,
-    }),
+    })
   ),
   invalid: PropTypes.bool,
   header: PropTypes.string,
