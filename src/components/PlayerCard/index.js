@@ -10,13 +10,14 @@ const ItemTypes = {
 };
 
 function PlayerCard({
-  id, name, age, nationality, onDrop,
+  id, name, age, nationality, onDrop, canDrag,
 }) {
   const item = useCallback({
     id, name, age, nationality, type: ItemTypes.BOX,
   }, [id, name, age, nationality]);
   const [{ opacity }, drag] = useDrag({
     item,
+    canDrag,
     end(it, monitor) {
       const dropResult = monitor.getDropResult();
       if (it && dropResult) {
@@ -37,9 +38,10 @@ function PlayerCard({
       opacity: monitor.isDragging() ? 0.6 : 1,
     }),
   });
+
   return (
     <Container>
-      <Content ref={drag} style={{ opacity }}>
+      <Content ref={drag} style={{ opacity, background: canDrag ? 'inherit' : 'gray' }}>
         <Row>
           <DataGroup>
             <span>

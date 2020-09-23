@@ -48,7 +48,7 @@ function Team() {
   const [tags, setTags] = useState([]);
   const [searchName, setSearchName] = useState('');
   const [teamPlayers, setTeamPlayers] = useState(INITIAL_TEAM);
-  const [teamFormation, setTeamFormation] = useState({
+  const [teamFormation] = useState({
     defense: 4,
     middle: 4,
     middleOff: 0,
@@ -180,8 +180,9 @@ function Team() {
       age={player.age}
       nationality={player.nationality}
       onDrop={handleOnDrop}
+      canDrag={!teamPlayers.find((tp) => tp.id === player.player_id)}
     />
-  )), [search]);
+  )), [search, teamPlayers]);
 
   const RenderPlayers = useCallback(() => {
     const players = teamPlayers.sort((a, b) => a.position - b.position);
