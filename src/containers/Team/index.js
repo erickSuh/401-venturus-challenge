@@ -22,7 +22,7 @@ import PlayerDustbin from 'components/PlayerDustbin';
 import {
   actionUserEdit,
   actionSearchPlayer,
-  actionUserFetch,
+  // actionUserFetch,
 } from 'store/actions';
 import { websiteValidator } from 'utils/string';
 import { INITIAL_TEAM } from 'utils/team';
@@ -181,11 +181,11 @@ function Team() {
     });
   };
 
-  useEffect(() => {
-    if (id) {
-      dispatch(actionUserFetch(userId));
-    }
-  }, [id]);
+  // useEffect(() => {
+  //   if (id) {
+  //     dispatch(actionUserFetch(userId));
+  //   }
+  // }, [id]);
 
   useEffect(() => {
     if (user && user.teams) {
@@ -201,7 +201,7 @@ function Team() {
         setTeamFormation(findTeam.teamFormation);
       }
     }
-  }, [user]);
+  }, [id, user]);
 
   const RenderSearchList = useCallback(() => search.players.map((player) => (
     <PlayerCard

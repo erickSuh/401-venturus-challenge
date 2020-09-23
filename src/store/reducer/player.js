@@ -1,13 +1,13 @@
 const INITIAL_STATE = {
   mostPicked: {
-    name: 'Cristiano Ronaldo',
-    initials: 'CR',
-    rating: '100%',
+    name: '',
+    initials: '',
+    rating: '',
   },
   lessPicked: {
-    name: 'Erick Sugahara',
-    initials: 'ES',
-    rating: '3%',
+    name: '',
+    initials: '',
+    rating: '',
   },
   topPicks: [],
 };
@@ -17,7 +17,7 @@ export default function teams(state = INITIAL_STATE, action) {
     case 'PLAYER_FETCH':
       return {
         ...state,
-        teams: [INITIAL_STATE],
+        ...action.data,
       };
     default:
       return state;

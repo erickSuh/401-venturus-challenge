@@ -15,6 +15,8 @@ import UserPick from 'components/UserPick';
 
 import { actionUserEdit, actionPlayerFetch, actionUserFetch } from 'store/actions';
 
+import { getInitials } from 'utils/string';
+
 const INITIAL_STATE_PICKED = {
   name: '',
   initials: '',
@@ -36,8 +38,16 @@ function MyAccount() {
   const [lessPicked, setLessPicked] = useState(INITIAL_STATE_PICKED);
 
   useEffect(() => {
-    setMostPicked(player.mostPicked);
-    setLessPicked(player.lessPicked);
+    const { name: mostName } = player.mostPicked;
+    const { name: lessName } = player.lessPicked;
+    setMostPicked({
+      ...player.mostPicked,
+      initials: getInitials(mostName),
+    });
+    setLessPicked({
+      ...player.lessPicked,
+      initials: getInitials(lessName),
+    });
   }, [player]);
 
   useEffect(() => {
