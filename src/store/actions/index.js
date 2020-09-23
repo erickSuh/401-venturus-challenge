@@ -1,3 +1,5 @@
+import Api from "service";
+
 export function actionTypeUserAddTeam(data) {
   return { type: "USER_ADD_TEAM", data };
 }
@@ -12,6 +14,10 @@ export function actionTypeUserEditTeam(data) {
 
 export const actionTypePlayerFetch = () => {
   return { type: "PLAYER_FETCH" };
+};
+
+export const actionTypeSearchPlayer = (data) => {
+  return { type: "SEARCH_PLAYER", data };
 };
 
 export const actionUserAddTeam = (data) => async (dispatch) => {
@@ -31,4 +37,9 @@ export const actionUserEditTeam = (data) => async (dispatch) => {
 
 export const actionPlayerFetch = () => async (dispatch) => {
   dispatch(actionTypePlayerFetch());
+};
+
+export const actionSearchPlayer = (name) => async (dispatch) => {
+  const players = await Api.searchPlayer.search(name);
+  return dispatch(actionTypeSearchPlayer(players));
 };

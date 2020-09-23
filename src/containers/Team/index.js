@@ -16,14 +16,18 @@ import Button from "components/Button";
 import ListRadio from "components/ListRadio";
 import CustomTag from "components/CustomTag";
 
-import { actionUserAddTeam, actionUserEditTeam } from "store/actions";
+import {
+  actionUserAddTeam,
+  actionUserEditTeam,
+  actionSearchPlayer,
+} from "store/actions";
 import { websiteValidator } from "utils/string";
 
 import { Container, SubHeader } from "./styles";
 
 function Team() {
   const { t } = useTranslation("team");
-  const user = useSelector((store) => store.user);
+  const { user, search } = useSelector((store) => store);
   const { id } = useParams();
   const history = useHistory();
   const dispatch = useDispatch();
@@ -36,7 +40,8 @@ function Team() {
   const [type, setType] = useState();
   const [isValidType, setIsValidType] = useState(true);
   const [tags, setTags] = useState([]);
-  const [search, setSearch] = useState("");
+  const [searchName, setSearchName] = useState("");
+  console.log(search);
 
   const checkNameValid = (st, teamsList) =>
     st.length > 0 &&
@@ -59,6 +64,13 @@ function Team() {
         setIsValidWebsite(true);
       }
       setIsValidWebsite(websiteValidator(st));
+    }, 1000),
+    []
+  );
+
+  const debounceSearchPlayer = useCallback(
+    debounce(async (st) => {
+      dispatch(actionSearchPlayer(st));
     }, 1000),
     []
   );
@@ -127,7 +139,8 @@ function Team() {
   };
 
   const handleChangeSearch = (e) => {
-    setSearch(e.target.value);
+    setSearchName(e.target.value);
+    debounceSearchPlayer(e.target.value);
   };
 
   const listRadio = useMemo(
@@ -225,7 +238,7 @@ function Team() {
               <Input
                 id="inp_search_player"
                 placeholder=""
-                value={search}
+                value={searchName}
                 onChange={handleChangeSearch}
                 type="text"
                 label={t("search_player")}

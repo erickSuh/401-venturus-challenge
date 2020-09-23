@@ -8,6 +8,7 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "@yaireo/tagify": "^3.19.0",
+    "axios": "^0.20.0",
     "cz-conventional-changelog": "^3.3.0",
     "i18next": "^19.7.0",
     "mongodb": "^3.6.2",
