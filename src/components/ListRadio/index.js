@@ -16,7 +16,7 @@ function ListRadio({
   const RenderList = useCallback(() => {
     if (list) {
       return list.map((item) => (
-        <label htmlFor={item.id}>
+        <label key={item.key} htmlFor={item.id}>
           <input
             id={item.id}
             type="radio"

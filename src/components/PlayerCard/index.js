@@ -75,6 +75,7 @@ PlayerCard.propTypes = {
   age: PropTypes.string,
   nationality: PropTypes.string,
   onDrop: PropTypes.func,
+  canDrag: PropTypes.bool,
 };
 
 export default PlayerCard;
