@@ -13,13 +13,15 @@ import BaseLayout from 'components/BaseLayout';
 import BaseColumn from 'components/BaseColumn';
 import UserPick from 'components/UserPick';
 
-import { actionUserRemoveTeam, actionPlayerFetch } from 'store/actions';
+import { actionUserEdit, actionPlayerFetch, actionUserFetch } from 'store/actions';
 
 const INITIAL_STATE_PICKED = {
   name: '',
   initials: '',
   rating: '',
 };
+
+const userId = 1;
 
 function MyAccount() {
   const { t } = useTranslation('my_account');
@@ -60,7 +62,11 @@ function MyAccount() {
         label: team.name,
         description: team.description,
         onDelete: () => {
-          dispatch(actionUserRemoveTeam(team.name));
+          dispatch(actionUserEdit(userId, {
+            ...user,
+            maxId: user.maxId ? user.maxId + 1 : 1,
+            teams: user.teams.filter((te) => te.id !== team.id),
+          }));
         },
         onEdit: () => {
           history.push(`/team/${team.id}`);
@@ -72,6 +78,7 @@ function MyAccount() {
   }, [user.teams, dispatch, filterName, filterDescription, history]);
 
   useEffect(() => {
+    dispatch(actionUserFetch(1));
     dispatch(actionPlayerFetch());
   }, [dispatch]);
 
@@ -137,7 +144,7 @@ function MyAccount() {
                 value={filterName}
                 list={mockList}
                 onChange={handleChangeNameFilter}
-                style={{ width: '30%' }}
+                style={{ width: '40%' }}
               />
               <Select
                 value={filterDescription}

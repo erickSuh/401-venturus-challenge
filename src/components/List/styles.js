@@ -1,11 +1,11 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const InfoBase = styled.div`
   font-size: 16px;
 `;
 
 export const NameContainer = styled(InfoBase)`
-  width: 35%;
+  width: calc(40% + 80px);
 `;
 
 export const DescriptionContainer = styled(InfoBase)`

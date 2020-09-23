@@ -20,8 +20,7 @@ import PlayerCard from 'components/PlayerCard';
 import PlayerDustbin from 'components/PlayerDustbin';
 
 import {
-  actionUserAddTeam,
-  actionUserEditTeam,
+  actionUserEdit,
   actionSearchPlayer,
 } from 'store/actions';
 import { websiteValidator } from 'utils/string';
@@ -54,6 +53,8 @@ function Team() {
     middleOff: 0,
     attack: 2,
   });
+
+  const userId = 1;
 
   const checkNameValid = (st, teamsList) => st.length > 0
     && !teamsList.find((team) => team.name === st && team.id != id);
@@ -120,24 +121,43 @@ function Team() {
     }
     try {
       if (id) {
+        const arrTeams = user.teams.map((team) => {
+          if (team.id == id) {
+            return {
+              id: Number.parseInt(id, 10),
+              name,
+              description,
+              website,
+              type,
+              tags: tags && tags.length ? JSON.parse(tags).map((tag) => tag.value) : tags,
+              players: teamPlayers,
+              teamFormation,
+            };
+          }
+          return team;
+        });
         dispatch(
-          actionUserEditTeam({
-            id: Number.parseInt(id, 10),
-            name,
-            description,
-            website,
-            tags,
-            type,
+          actionUserEdit(userId, {
+            ...user,
+            maxId: user.maxId ? user.maxId + 1 : 1,
+            teams: arrTeams,
           }),
         );
       } else {
         dispatch(
-          actionUserAddTeam({
-            name,
-            description,
-            website,
-            type,
-            tags: JSON.parse(tags).map((tag) => tag.value),
+          actionUserEdit(userId, {
+            ...user,
+            maxId: user.maxId ? user.maxId + 1 : 1,
+            teams: [...user.teams, {
+              id: user.maxId ? user.maxId + 1 : 0,
+              name,
+              description,
+              website,
+              type,
+              tags: tags && tags.length ? JSON.parse(tags).map((tag) => tag.value) : tags,
+              players: teamPlayers,
+              teamFormation,
+            }],
           }),
         );
       }
