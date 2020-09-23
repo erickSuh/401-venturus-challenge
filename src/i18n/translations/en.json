@@ -5,7 +5,10 @@
     "share": "Share",
     "edit": "Edit",
     "most_picked_player": "Most picked player",
-    "less_picked_player": "Less picked player"
+    "less_picked_player": "Less picked player",
+    "name": "Name",
+    "age": "Age",
+    "nationality": "Nationality"
   },
   "my_account": {
     "my_teams": "My teams",
