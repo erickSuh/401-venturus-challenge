@@ -8,9 +8,7 @@ function Header() {
     <Container>
       <IconContainer href="/">
         <Icon alt="icon" />
-        {
-          t('title')
-        }
+        {t('title')}
       </IconContainer>
     </Container>
   );

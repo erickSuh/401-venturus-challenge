@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const Container = styled.div`
   width: 100%;
@@ -14,17 +14,17 @@ export const Container = styled.div`
     border-radius: 8px;
     border: 2px solid #dadada;
     min-height: 80px;
-    --tag-bg: ${(props) => (props.theme.colors.invalid)};
+    --tag-bg: ${(props) => props.theme.colors.invalid};
 
     span {
       color: #fff;
     }
 
     .tagify__input {
-      color: black
+      color: black;
     }
 
-    div:before{
+    div:before {
       border-radius: 16px;
     }
   }

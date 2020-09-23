@@ -4,12 +4,19 @@ import PropTypes from 'prop-types';
 import { Container, List } from './styles';
 
 function ListRadio({
-  id, list, header, value, onChange, style, children, invalid,
+  id,
+  list,
+  header,
+  value,
+  onChange,
+  style,
+  children,
+  invalid,
 }) {
-  const renderList = useCallback(() => {
+  const RenderList = useCallback(() => {
     if (list) {
       return list.map((item) => (
-        <label htmlFor={item.id}>
+        <label key={item.key} htmlFor={item.id}>
           <input
             id={item.id}
             type="radio"
@@ -28,7 +35,7 @@ function ListRadio({
     <Container invalid={invalid} id={id} style={style}>
       <h3>{header}</h3>
       <List invalid={invalid}>
-        {renderList()}
+        <RenderList />
         {children}
       </List>
     </Container>

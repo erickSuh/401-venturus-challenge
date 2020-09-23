@@ -1,5 +1,7 @@
 /* eslint-disable eqeqeq */
-import React, { useMemo, useState, useEffect } from 'react';
+import React, {
+  useMemo, useState, useEffect, useCallback,
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
@@ -9,21 +11,35 @@ import Header from 'components/Header';
 import BaseLayout from 'components/BaseLayout';
 import BaseColumn from 'components/BaseColumn';
 import Panel from 'components/Panel';
-import Placeholder from 'components/Placeholder';
 import Input from 'components/Input';
 import TextArea from 'components/TextArea';
 import Button from 'components/Button';
 import ListRadio from 'components/ListRadio';
 import CustomTag from 'components/CustomTag';
+import PlayerCard from 'components/PlayerCard';
+import PlayerDustbin from 'components/PlayerDustbin';
+import Select from 'components/Select';
 
-import { userAddTeam } from 'store/actions';
+import {
+  actionUserEdit,
+  actionSearchPlayer,
+  // actionUserFetch,
+} from 'store/actions';
+import formations from 'utils/formations';
 import { websiteValidator } from 'utils/string';
+import { INITIAL_TEAM } from 'utils/team';
 
-import { Container, SubHeader } from './styles';
+import {
+  Container,
+  SubHeader,
+  SearchList,
+  TeamSquad,
+  TeamFormation,
+} from './styles';
 
 function Team() {
   const { t } = useTranslation('team');
-  const user = useSelector((store) => (store.user));
+  const { user, search } = useSelector((store) => store);
   const { id } = useParams();
   const history = useHistory();
   const dispatch = useDispatch();
@@ -36,23 +52,41 @@ function Team() {
   const [type, setType] = useState();
   const [isValidType, setIsValidType] = useState(true);
   const [tags, setTags] = useState([]);
+  const [searchName, setSearchName] = useState('');
+  const [teamPlayers, setTeamPlayers] = useState(INITIAL_TEAM);
+  const [teamFormation, setTeamFormation] = useState(0);
+  const [availableFormations, setAvailableFormations] = useState([]);
+
+  const userId = 1;
 
   const checkNameValid = (st, teamsList) => st.length > 0
-  && !teamsList.find((team) => (team.name === st && team.id != id));
+    && !teamsList.find((team) => team.name === st && team.id != id);
 
-  const checkAllFieldsValid = () => checkNameValid(name, user.teams)
-  && websiteValidator(website);
+  const checkAllFieldsValid = () => checkNameValid(name, user.teams) && websiteValidator(website);
 
-  const debounceNameCheckIsValid = debounce((st, teamsList) => {
-    setIsValidName(checkNameValid(st, teamsList));
-  }, 1000);
+  const debounceNameCheckIsValid = useCallback(
+    debounce(async (st, teamsList) => {
+      setIsValidName(checkNameValid(st, teamsList));
+    }, 1000),
+    [],
+  );
 
-  const debounceWebsiteCheckIsValid = debounce((st) => {
-    if (st.length === 0) {
-      setIsValidWebsite(true);
-    }
-    setIsValidWebsite(websiteValidator(st));
-  }, 1000);
+  const debounceWebsiteCheckIsValid = useCallback(
+    debounce(async (st) => {
+      if (st.length === 0) {
+        setIsValidWebsite(true);
+      }
+      setIsValidWebsite(websiteValidator(st));
+    }, 1000),
+    [],
+  );
+
+  const debounceSearchPlayer = useCallback(
+    debounce(async (st) => {
+      dispatch(actionSearchPlayer(st));
+    }, 1000),
+    [],
+  );
 
   const handleChangeName = (e) => {
     setName(e.target.value);
@@ -75,9 +109,8 @@ function Team() {
   };
 
   const handleOnChangeTags = (e) => {
-    if (e.target.value) {
-      setTags(e.target.value);
-    }
+    e.persist();
+    setTags(e.target.value);
   };
 
   const handleSave = (e) => {
@@ -89,39 +122,232 @@ function Team() {
       setIsValidType(!!type);
       return;
     }
-
-    if (id) {
-      // TODO call edit
-    } else {
-      dispatch(userAddTeam({
-        name,
-        description,
-        website,
-        tags: JSON.parse(tags).map((tag) => (tag.value)),
-      }));
+    try {
+      if (id) {
+        const arrTeams = user.teams.map((team) => {
+          if (team.id == id) {
+            return {
+              id: Number.parseInt(id, 10),
+              name,
+              description,
+              website,
+              type,
+              tags: typeof tags === 'string' ? JSON.parse(tags).map((tag) => tag.value) : tags,
+              players: teamPlayers,
+              teamFormation,
+            };
+          }
+          return team;
+        });
+        dispatch(
+          actionUserEdit(userId, {
+            ...user,
+            maxId: user.maxId ? user.maxId + 1 : 1,
+            teams: arrTeams,
+          }),
+        );
+      } else {
+        dispatch(
+          actionUserEdit(userId, {
+            ...user,
+            maxId: user.maxId ? user.maxId + 1 : 1,
+            teams: [...user.teams, {
+              id: user.maxId ? user.maxId + 1 : 0,
+              name,
+              description,
+              website,
+              type,
+              tags: tags && tags.length ? JSON.parse(tags).map((tag) => tag.value) : tags,
+              players: teamPlayers,
+              teamFormation,
+            }],
+          }),
+        );
+      }
+      history.push('/my-account');
+    } catch (err) {
+      console.log(err.message);
     }
-    history.push('/my-account');
   };
 
-  const listRadio = useMemo(() => ([{
-    id: 'rad_real', key: 'rad_real', name: 'team_type', value: 'real', label: 'Real',
-  },
-  {
-    id: 'rad_fantasy', key: 'rad_fantasy', name: 'team_fantasy', value: 'fantasy', label: 'Fantasy',
-  }]), []);
+  const handleChangeSearch = (e) => {
+    setSearchName(e.target.value);
+    debounceSearchPlayer(e.target.value);
+  };
+
+  const handleOnDrop = (player) => {
+    setTeamPlayers((prev) => {
+      const team = prev.filter((p) => p.position !== player.position);
+      team.push(player);
+      return team;
+    });
+  };
+
+  const handleChangeFormation = (e) => {
+    setTeamPlayers(INITIAL_TEAM);
+    setTeamFormation(e.target.value);
+  };
 
   useEffect(() => {
-    if (id) {
-      // TODO call api
-      const findTeam = user.teams.find((team) => (team.id == id));
+    const avFormations = formations.map((formation) => {
+      const str = `${formation.defense} - ${formation.middle}${!formation.middleOff ? '' : ` - ${formation.middleOff}`} - ${formation.attack}`;
+      return {
+        id: formation.id,
+        key: formation.id,
+        name: str,
+        value: formation.id,
+        label: str,
+      };
+    });
 
-      setName(findTeam.name);
-      setDescription(findTeam.description);
-      setWebsite(findTeam.website);
-      setType(findTeam.type);
-      setTags(findTeam.tags);
+    setAvailableFormations(avFormations);
+  }, []);
+
+  // useEffect(() => {
+  //   if (id) {
+  //     dispatch(actionUserFetch(userId));
+  //   }
+  // }, [id]);
+
+  useEffect(() => {
+    if (user && user.teams) {
+      const findTeam = user.teams.find((team) => team.id == id);
+
+      if (findTeam) {
+        setName(findTeam.name);
+        setDescription(findTeam.description);
+        setWebsite(findTeam.website);
+        setType(findTeam.type);
+        setTags(findTeam.tags);
+        setTeamPlayers(findTeam.players);
+        setTeamFormation(findTeam.teamFormation);
+      }
     }
-  }, [id, user.teams]);
+  }, [id, user]);
+
+  const RenderSearchList = useCallback(() => search.players.map((player) => (
+    <PlayerCard
+      id={player.player_id}
+      name={player.player_name}
+      age={player.age}
+      nationality={player.nationality}
+      onDrop={handleOnDrop}
+      canDrag={!teamPlayers.find((tp) => tp.id === player.player_id)}
+    />
+  )), [search, teamPlayers]);
+
+  const RenderPlayers = useCallback(() => {
+    let players = INITIAL_TEAM;
+    let form = formations.find((f) => f.id == teamFormation);
+    if (teamPlayers) {
+      players = teamPlayers.sort((a, b) => a.position - b.position);
+    }
+    if (!form) {
+      // eslint-disable-next-line prefer-destructuring
+      form = formations[0];
+    }
+
+    const {
+      defense, middle, middleOff, attack,
+    } = form;
+    const goalKeeper = 1;
+    let index = 0;
+
+    const goalKeeperPlayer = players.slice(index, goalKeeper);
+    index += goalKeeper;
+    const defenceIndex = index;
+    const defensePlayers = players.slice(index, index + defense);
+    index += defense;
+    const middleIndex = index;
+    const middlePlayers = players.slice(index, index + middle);
+    index += middle;
+    const middleOffIndex = index;
+    const middleOffPlayers = players.slice(index, index + middleOff);
+    index += middleOff;
+    const attackIndex = index;
+    const attackPlayers = players.slice(index, index + attack);
+
+    const renderRow = (positionPlayers, startIndex) => {
+      if (!positionPlayers || positionPlayers.length === 0) return null;
+      if (players.length > 3) {
+        const firstRow = positionPlayers.slice(0, 3);
+        const secondRow = positionPlayers.slice(3, players.length);
+        return (
+          <>
+            <div className="row">
+              {
+                firstRow.map((player, i) => (
+                  <PlayerDustbin
+                    allowedDropEffect="any"
+                    player={player}
+                    position={startIndex + i}
+                    onDrop={handleOnDrop}
+                  />
+                ))
+              }
+            </div>
+            <div className="row">
+              {
+                secondRow.map((player, i) => (
+                  <PlayerDustbin
+                    allowedDropEffect="any"
+                    player={player}
+                    position={startIndex + 3 + i}
+                    onDrop={handleOnDrop}
+                  />
+                ))
+              }
+            </div>
+          </>
+        );
+      }
+
+      return (
+        <div className="row">
+          {
+            positionPlayers.map((player, i) => (
+              <PlayerDustbin
+                allowedDropEffect="any"
+                player={player}
+                position={startIndex + i}
+                onDrop={handleOnDrop}
+              />
+            ))
+          }
+        </div>
+      );
+    };
+
+    return (
+      <>
+        {renderRow(goalKeeperPlayer, 0)}
+        {renderRow(defensePlayers, defenceIndex)}
+        {renderRow(middlePlayers, middleIndex)}
+        {renderRow(middleOffPlayers, middleOffIndex)}
+        {renderRow(attackPlayers, attackIndex)}
+      </>
+    );
+  }, [teamPlayers, teamFormation]);
+
+  const listRadio = useMemo(
+    () => [
+      {
+        id: 'rad_real',
+        key: 'rad_real',
+        name: 'team_type',
+        value: 'real',
+        label: 'Real',
+      },
+      {
+        id: 'rad_fantasy',
+        key: 'rad_fantasy',
+        name: 'team_fantasy',
+        value: 'fantasy',
+        label: 'Fantasy',
+      },
+    ],
+    [],
+  );
 
   return (
     <>
@@ -168,23 +394,61 @@ function Team() {
                 header={t('team_type')}
                 onChange={handleOnChangeType}
               />
-              <CustomTag header={t('tags')} onChange={handleOnChangeTags} tags={tags} />
+              <CustomTag
+                header={t('tags')}
+                onChange={handleOnChangeTags}
+                tags={tags}
+              />
             </BaseColumn>
           </Container>
 
           <SubHeader>{t('configure_squad')}</SubHeader>
           <Container>
             <BaseColumn>
-              <Placeholder height="350px" />
+              <TeamFormation>
+                <h3>
+                  Formation
+                </h3>
+                <Select
+                  list={availableFormations}
+                  value={teamFormation}
+                  onChange={handleChangeFormation}
+                  style={{ border: '2px solid #aaa', borderRadius: '8px', width: 'auto' }}
+                />
+              </TeamFormation>
+              <Panel style={{
+                backgroundImage:
+                'linear-gradient(0deg, #532d8c 0%, #f2295b 100%)',
+                height: '700px',
+              }}
+              >
+                <TeamSquad>
+                  <RenderPlayers />
+                </TeamSquad>
+              </Panel>
             </BaseColumn>
             <BaseColumn>
-              <Placeholder height="350px" />
+              <Input
+                id="inp_search_player"
+                placeholder=""
+                value={searchName}
+                onChange={handleChangeSearch}
+                type="text"
+                label={t('search_player')}
+              />
+              <SearchList>
+                <RenderSearchList />
+              </SearchList>
             </BaseColumn>
           </Container>
 
           <Container>
             <BaseColumn>
-              <Button onClick={handleSave} label="Save" style={{ width: '100%' }} />
+              <Button
+                onClick={handleSave}
+                label="Save"
+                style={{ width: '100%' }}
+              />
             </BaseColumn>
             <BaseColumn />
           </Container>

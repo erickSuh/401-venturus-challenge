@@ -4,11 +4,7 @@ import PropTypes from 'prop-types';
 import { Container } from './styles';
 
 function Placeholder({ height }) {
-  return (
-    <Container height={height}>
-      Not Implemented
-    </Container>
-  );
+  return <Container height={height}>Not Implemented</Container>;
 }
 
 Placeholder.propTypes = {

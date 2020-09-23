@@ -6,7 +6,7 @@ export const Container = styled.header`
   justify-content: space-between;
   width: 100%;
   height: 50px;
-  background-image: linear-gradient(230deg,#532d8c 0%,#f2295b 100%);
+  background-image: linear-gradient(230deg, #532d8c 0%, #f2295b 100%);
 `;
 
 export const IconContainer = styled.a`
@@ -23,7 +23,8 @@ export const IconContainer = styled.a`
 `;
 
 export const Icon = styled.div`
-  background: url("https://venturus.org.br/wp-content/themes/vent-theme/assets/css/../img/logo-new.svg") left top;
+  background: url("https://venturus.org.br/wp-content/themes/vent-theme/assets/css/../img/logo-new.svg")
+    left top;
   background-size: 95px 56px;
   overflow: hidden;
   width: 32px;

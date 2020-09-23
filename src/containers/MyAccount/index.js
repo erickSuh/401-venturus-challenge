@@ -11,30 +11,56 @@ import Button from 'components/Button';
 import Placeholder from 'components/Placeholder';
 import BaseLayout from 'components/BaseLayout';
 import BaseColumn from 'components/BaseColumn';
+import UserPick from 'components/UserPick';
 
-import { userRemoveTeam } from 'store/actions';
+import { actionUserEdit, actionPlayerFetch, actionUserFetch } from 'store/actions';
+
+import { getInitials } from 'utils/string';
+
+const INITIAL_STATE_PICKED = {
+  name: '',
+  initials: '',
+  rating: '',
+};
+
+const userId = 1;
 
 function MyAccount() {
   const { t } = useTranslation('my_account');
-  const user = useSelector((store) => (store.user));
+  const { user, player } = useSelector((store) => store);
   const history = useHistory();
   const dispatch = useDispatch();
 
   const [teams, setTeams] = useState([]);
   const [filterName, setFilterName] = useState('-1');
   const [filterDescription, setFilterDescription] = useState('-1');
+  const [mostPicked, setMostPicked] = useState(INITIAL_STATE_PICKED);
+  const [lessPicked, setLessPicked] = useState(INITIAL_STATE_PICKED);
+
+  useEffect(() => {
+    const { name: mostName } = player.mostPicked;
+    const { name: lessName } = player.lessPicked;
+    setMostPicked({
+      ...player.mostPicked,
+      initials: getInitials(mostName),
+    });
+    setLessPicked({
+      ...player.lessPicked,
+      initials: getInitials(lessName),
+    });
+  }, [player]);
 
   useEffect(() => {
     const sortTeams = (teamsList) => {
-      if (filterName === 'ascending') {
-        teamsList.sort((a, b) => a.label.localeCompare(b.label));
-      } else if (filterName === 'descending') {
-        teamsList.sort((a, b) => b.label.localeCompare(a.label));
-      }
-
       if (filterDescription === 'ascending') {
         teamsList.sort((a, b) => a.label.localeCompare(b.label));
       } else if (filterDescription === 'descending') {
+        teamsList.sort((a, b) => b.label.localeCompare(a.label));
+      }
+
+      if (filterName === 'ascending') {
+        teamsList.sort((a, b) => a.label.localeCompare(b.label));
+      } else if (filterName === 'descending') {
         teamsList.sort((a, b) => b.label.localeCompare(a.label));
       }
     };
@@ -45,19 +71,26 @@ function MyAccount() {
         key: team.id,
         label: team.name,
         description: team.description,
-        onDelete: () => { dispatch(userRemoveTeam(team.name)); },
-        onEdit: () => { history.push(`/team/${team.id}`); },
+        onDelete: () => {
+          dispatch(actionUserEdit(userId, {
+            ...user,
+            maxId: user.maxId ? user.maxId + 1 : 1,
+            teams: user.teams.filter((te) => te.id !== team.id),
+          }));
+        },
+        onEdit: () => {
+          history.push(`/team/${team.id}`);
+        },
       }));
       sortTeams(list);
       setTeams(list);
     }
-  }, [
-    user.teams,
-    dispatch,
-    filterName,
-    filterDescription,
-    history,
-  ]);
+  }, [user, dispatch, filterName, filterDescription, history]);
+
+  useEffect(() => {
+    dispatch(actionUserFetch(1));
+    dispatch(actionPlayerFetch());
+  }, [dispatch]);
 
   const handleCreate = () => {
     history.push('/team');
@@ -73,25 +106,43 @@ function MyAccount() {
 
   const headerComponent = (
     <Button onClick={handleCreate}>
-      <span className="material-icons">
-        add
-      </span>
+      <span className="material-icons">add</span>
     </Button>
   );
-  const mockList = [{
-    key: 'teste 1', label: t('ascending'), value: 'ascending',
-  }, {
-    key: 'teste 2', label: t('descending'), value: 'descending',
-  }, {
-    key: 'teste 3', label: 'Name', value: '-1',
-  }];
-  const mockListDesc = [{
-    key: 'teste 1', label: t('ascending'), value: 'ascending',
-  }, {
-    key: 'teste 2', label: t('descending'), value: 'descending',
-  }, {
-    key: 'teste 3', label: 'Description', value: '-1',
-  }];
+  const mockList = [
+    {
+      key: 'teste 1',
+      label: t('ascending'),
+      value: 'ascending',
+    },
+    {
+      key: 'teste 2',
+      label: t('descending'),
+      value: 'descending',
+    },
+    {
+      key: 'teste 3',
+      label: 'Name',
+      value: '-1',
+    },
+  ];
+  const mockListDesc = [
+    {
+      key: 'teste 1',
+      label: t('ascending'),
+      value: 'ascending',
+    },
+    {
+      key: 'teste 2',
+      label: t('descending'),
+      value: 'descending',
+    },
+    {
+      key: 'teste 3',
+      label: 'Description',
+      value: '-1',
+    },
+  ];
   return (
     <>
       <Header />
@@ -103,7 +154,7 @@ function MyAccount() {
                 value={filterName}
                 list={mockList}
                 onChange={handleChangeNameFilter}
-                style={{ width: '30%' }}
+                style={{ width: '40%' }}
               />
               <Select
                 value={filterDescription}
@@ -118,8 +169,13 @@ function MyAccount() {
           <Panel>
             <Placeholder height="350px" />
           </Panel>
-          <Panel>
-            <Placeholder height="300px" />
+          <Panel
+            style={{
+              backgroundImage:
+                'linear-gradient(90deg, #532d8c 0%, #f2295b 100%)',
+            }}
+          >
+            <UserPick mostPick={mostPicked} lessPick={lessPicked} />
           </Panel>
         </BaseColumn>
       </BaseLayout>

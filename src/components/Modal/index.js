@@ -14,9 +14,7 @@ function Modal({
 
   return (
     <Container className={isVisible ? 'hidden' : null} style={style}>
-      <div className={isVisible ? 'hidden' : null}>
-        { children }
-      </div>
+      <div className={isVisible ? 'hidden' : null}>{children}</div>
       <Mask className={isVisible ? 'hidden' : null} onClick={onClickAway} />
     </Container>
   );

@@ -6,13 +6,17 @@ import { Container } from './styles';
 function Select({
   value, list, children, onChange, style,
 }) {
-  const renderList = useCallback(() => {
+  const RenderList = useCallback(() => {
     if (list) {
-      return list.map((item) => (
-        item.value !== '-1'
-          ? <option key={item.key} value={item.value}>{item.label}</option>
-          : <option key={item.key} value={item.value} disabled hidden>{item.label}</option>
-      ));
+      return list.map((item) => (item.value !== '-1' ? (
+        <option key={item.key} value={item.value}>
+          {item.label}
+        </option>
+      ) : (
+        <option key={item.key} value={item.value} disabled hidden>
+          {item.label}
+        </option>
+      )));
     }
     return null;
   }, [list]);
@@ -20,7 +24,7 @@ function Select({
   return (
     <Container style={style}>
       <select placeholder="teste" value={value} onChange={onChange}>
-        {renderList()}
+        <RenderList />
         {children}
       </select>
     </Container>

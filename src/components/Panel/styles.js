@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  background: #FFFFFF;
+  background: #ffffff;
   border-radius: 16px;
   min-height: 50px;
   box-shadow: rgba(0, 0, 0, 0.5) 0px 0px 3px 0;
@@ -20,4 +20,5 @@ export const HeaderContainer = styled.div`
 
 export const Content = styled.div`
   padding: 8px;
+  height: 100%;
 `;

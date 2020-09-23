@@ -5,7 +5,7 @@ const InfoBase = styled.div`
 `;
 
 export const NameContainer = styled(InfoBase)`
-  width: 35%;
+  width: calc(40% + 80px);
 `;
 
 export const DescriptionContainer = styled(InfoBase)`
@@ -73,7 +73,7 @@ export const Options = styled.div`
     bottom: 110%;
     left: 50%;
     margin-left: -58px;
-  
+
     /* Position the tooltip text - see examples below! */
     position: absolute;
     z-index: 1;

@@ -5,13 +5,11 @@ import { Container, HeaderContainer, Content } from './styles';
 function Panel({
   children, headerComponent, header, style,
 }) {
-  const componentHeader = useCallback(() => {
+  const ComponentHeader = useCallback(() => {
     if (header) {
       return (
         <HeaderContainer>
-          <h1>
-            {header}
-          </h1>
+          <h1>{header}</h1>
           {headerComponent}
         </HeaderContainer>
       );
@@ -21,12 +19,8 @@ function Panel({
 
   return (
     <Container style={style}>
-      {
-        componentHeader()
-      }
-      <Content>
-        {children}
-      </Content>
+      <ComponentHeader />
+      <Content>{children}</Content>
     </Container>
   );
 }

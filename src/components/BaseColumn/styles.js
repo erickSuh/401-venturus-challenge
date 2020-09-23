@@ -6,7 +6,7 @@ export const Container = styled.div`
   align-items: center;
   width: 100%;
   padding: 0 16px 0 16px;
-  
+
   .row {
     display: flex;
     justify-content: space-around;

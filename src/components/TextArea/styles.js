@@ -20,7 +20,9 @@ export const CustomTextarea = styled.textarea`
   background: none;
   border: none;
   border-radius: 6px;
-  border: ${(props) => (props.invalid ? `2px solid ${props.theme.colors.invalid}` : '2px solid #dadada')};
+  border: ${(props) => (props.invalid
+    ? `2px solid ${props.theme.colors.invalid}`
+    : '2px solid #dadada')};
   margin-top: 4px;
   resize: ${(props) => (props.resizable ? 'auto' : 'none')};
 

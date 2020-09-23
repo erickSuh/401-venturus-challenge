@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const Container = styled.div`
   width: 100%;
@@ -8,7 +8,7 @@ export const Container = styled.div`
 export const Label = styled.label`
   width: 100%;
   font-weight: 600;
-  color: ${(props) => (props.invalid ? props.theme.colors.invalid : '#aaa')};
+  color: ${(props) => (props.invalid ? props.theme.colors.invalid : "#aaa")};
 `;
 
 export const CustomInput = styled.input`
@@ -18,12 +18,18 @@ export const CustomInput = styled.input`
   background: none;
   border: none;
   border-radius: 6px;
-  border: ${(props) => (props.invalid ? `2px solid ${props.theme.colors.invalid}` : '2px solid #dadada')};
+  border: ${(props) =>
+    props.invalid
+      ? `2px solid ${props.theme.colors.invalid}`
+      : "2px solid #dadada"};
   margin-top: 4px;
 
   &:focus {
     outline: none;
     background: white;
-    border: ${(props) => (props.invalid ? `2px solid ${props.theme.colors.invalid}` : '2px solid #dadada')};
+    border: ${(props) =>
+      props.invalid
+        ? `2px solid ${props.theme.colors.invalid}`
+        : "2px solid #dadada"};
   }
 `;
