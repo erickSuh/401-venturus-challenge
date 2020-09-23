@@ -1,17 +1,19 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { useTranslation } from "react-i18next";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 
-import { Container, Player, PickRate, PickRateContainer } from "./styles";
+import {
+  Container, Player, PickRate, PickRateContainer,
+} from './styles';
 
 function UserPick({ mostPick, lessPick }) {
-  const { t } = useTranslation("common");
+  const { t } = useTranslation('common');
 
   return (
     <Container>
       <div className="left">
         <div className="content">
-          <h1>{t("most_picked_player")}</h1>
+          <h1>{t('most_picked_player')}</h1>
           <div className="player-data">
             <Player>{mostPick.initials}</Player>
             <PickRateContainer>
@@ -22,7 +24,7 @@ function UserPick({ mostPick, lessPick }) {
       </div>
       <div className="right">
         <div className="content">
-          <h1>{t("less_picked_player")}</h1>
+          <h1>{t('less_picked_player')}</h1>
           <div className="player-data">
             <Player>{lessPick.initials}</Player>
             <PickRateContainer>

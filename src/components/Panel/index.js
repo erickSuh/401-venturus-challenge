@@ -1,8 +1,10 @@
-import React, { useCallback } from "react";
-import PropTypes from "prop-types";
-import { Container, HeaderContainer, Content } from "./styles";
+import React, { useCallback } from 'react';
+import PropTypes from 'prop-types';
+import { Container, HeaderContainer, Content } from './styles';
 
-function Panel({ children, headerComponent, header, style }) {
+function Panel({
+  children, headerComponent, header, style,
+}) {
   const ComponentHeader = useCallback(() => {
     if (header) {
       return (
@@ -31,7 +33,7 @@ Panel.propTypes = {
 };
 
 Panel.defaultProps = {
-  header: "",
+  header: '',
 };
 
 export default Panel;
