@@ -44,6 +44,6 @@ export const List = styled.div`
     border-radius: 50%;
   }
   input[type='radio']:checked:before {
-    background: ${(props) => (props.invalid ? props.theme.colors.invalid : props.theme.colors.primary)};
+    background: ${(props) => (props.theme.colors.invalid)};
   }
 `;

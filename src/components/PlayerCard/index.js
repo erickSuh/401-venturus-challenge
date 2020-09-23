@@ -41,7 +41,7 @@ function PlayerCard({
 
   return (
     <Container>
-      <Content ref={drag} style={{ opacity, background: canDrag ? 'inherit' : 'gray' }}>
+      <Content ref={drag} style={{ opacity, background: canDrag ? '' : 'gray' }}>
         <Row>
           <DataGroup>
             <span>

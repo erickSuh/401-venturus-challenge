@@ -85,7 +85,7 @@ function MyAccount() {
       sortTeams(list);
       setTeams(list);
     }
-  }, [user.teams, dispatch, filterName, filterDescription, history]);
+  }, [user, dispatch, filterName, filterDescription, history]);
 
   useEffect(() => {
     dispatch(actionUserFetch(1));

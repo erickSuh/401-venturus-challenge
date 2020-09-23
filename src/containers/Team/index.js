@@ -18,17 +18,23 @@ import ListRadio from 'components/ListRadio';
 import CustomTag from 'components/CustomTag';
 import PlayerCard from 'components/PlayerCard';
 import PlayerDustbin from 'components/PlayerDustbin';
+import Select from 'components/Select';
 
 import {
   actionUserEdit,
   actionSearchPlayer,
   // actionUserFetch,
 } from 'store/actions';
+import formations from 'utils/formations';
 import { websiteValidator } from 'utils/string';
 import { INITIAL_TEAM } from 'utils/team';
 
 import {
-  Container, SubHeader, SearchList, TeamSquad,
+  Container,
+  SubHeader,
+  SearchList,
+  TeamSquad,
+  TeamFormation,
 } from './styles';
 
 function Team() {
@@ -48,12 +54,8 @@ function Team() {
   const [tags, setTags] = useState([]);
   const [searchName, setSearchName] = useState('');
   const [teamPlayers, setTeamPlayers] = useState(INITIAL_TEAM);
-  const [teamFormation, setTeamFormation] = useState({
-    defense: 4,
-    middle: 4,
-    middleOff: 0,
-    attack: 2,
-  });
+  const [teamFormation, setTeamFormation] = useState(0);
+  const [availableFormations, setAvailableFormations] = useState([]);
 
   const userId = 1;
 
@@ -181,6 +183,26 @@ function Team() {
     });
   };
 
+  const handleChangeFormation = (e) => {
+    setTeamPlayers(INITIAL_TEAM);
+    setTeamFormation(e.target.value);
+  };
+
+  useEffect(() => {
+    const avFormations = formations.map((formation) => {
+      const str = `${formation.defense} - ${formation.middle}${!formation.middleOff ? '' : ` - ${formation.middleOff}`} - ${formation.attack}`;
+      return {
+        id: formation.id,
+        key: formation.id,
+        name: str,
+        value: formation.id,
+        label: str,
+      };
+    });
+
+    setAvailableFormations(avFormations);
+  }, []);
+
   // useEffect(() => {
   //   if (id) {
   //     dispatch(actionUserFetch(userId));
@@ -216,13 +238,18 @@ function Team() {
 
   const RenderPlayers = useCallback(() => {
     let players = INITIAL_TEAM;
+    let form = formations.find((f) => f.id == teamFormation);
     if (teamPlayers) {
       players = teamPlayers.sort((a, b) => a.position - b.position);
+    }
+    if (!form) {
+      // eslint-disable-next-line prefer-destructuring
+      form = formations[0];
     }
 
     const {
       defense, middle, middleOff, attack,
-    } = teamFormation;
+    } = form;
     const goalKeeper = 1;
     let index = 0;
 
@@ -244,7 +271,7 @@ function Team() {
       if (!positionPlayers || positionPlayers.length === 0) return null;
       if (players.length > 3) {
         const firstRow = positionPlayers.slice(0, 3);
-        const secondRow = positionPlayers.slice(3, 4);
+        const secondRow = positionPlayers.slice(3, players.length);
         return (
           <>
             <div className="row">
@@ -378,10 +405,21 @@ function Team() {
           <SubHeader>{t('configure_squad')}</SubHeader>
           <Container>
             <BaseColumn>
+              <TeamFormation>
+                <h3>
+                  Formation
+                </h3>
+                <Select
+                  list={availableFormations}
+                  value={teamFormation}
+                  onChange={handleChangeFormation}
+                  style={{ border: '2px solid #aaa', borderRadius: '8px', width: 'auto' }}
+                />
+              </TeamFormation>
               <Panel style={{
                 backgroundImage:
                 'linear-gradient(0deg, #532d8c 0%, #f2295b 100%)',
-                height: '600px',
+                height: '700px',
               }}
               >
                 <TeamSquad>

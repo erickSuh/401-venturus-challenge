@@ -18,8 +18,21 @@ export const SubHeader = styled.h2`
 
 export const SearchList = styled.div`
   width: 100%;
-  max-height: 600px;
+  max-height: 675px;
   overflow-y: auto;
+`;
+
+export const TeamFormation = styled.div`
+  padding: 8px;
+  display: flex; 
+  align-items: center; 
+  justify-content: flex-start; 
+  width: 100%;
+
+  h3 {
+    margin-right: 8px;
+    color: black;
+  }
 `;
 
 export const TeamSquad = styled.div`
