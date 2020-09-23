@@ -22,6 +22,7 @@ import PlayerDustbin from 'components/PlayerDustbin';
 import {
   actionUserEdit,
   actionSearchPlayer,
+  actionUserFetch,
 } from 'store/actions';
 import { websiteValidator } from 'utils/string';
 import { INITIAL_TEAM } from 'utils/team';
@@ -47,7 +48,7 @@ function Team() {
   const [tags, setTags] = useState([]);
   const [searchName, setSearchName] = useState('');
   const [teamPlayers, setTeamPlayers] = useState(INITIAL_TEAM);
-  const [teamFormation] = useState({
+  const [teamFormation, setTeamFormation] = useState({
     defense: 4,
     middle: 4,
     middleOff: 0,
@@ -129,7 +130,7 @@ function Team() {
               description,
               website,
               type,
-              tags: tags && tags.length ? JSON.parse(tags).map((tag) => tag.value) : tags,
+              tags: typeof tags === 'string' ? JSON.parse(tags).map((tag) => tag.value) : tags,
               players: teamPlayers,
               teamFormation,
             };
@@ -182,16 +183,25 @@ function Team() {
 
   useEffect(() => {
     if (id) {
-      // TODO call api
+      dispatch(actionUserFetch(userId));
+    }
+  }, [id]);
+
+  useEffect(() => {
+    if (user && user.teams) {
       const findTeam = user.teams.find((team) => team.id == id);
 
-      setName(findTeam.name);
-      setDescription(findTeam.description);
-      setWebsite(findTeam.website);
-      setType(findTeam.type);
-      setTags(findTeam.tags);
+      if (findTeam) {
+        setName(findTeam.name);
+        setDescription(findTeam.description);
+        setWebsite(findTeam.website);
+        setType(findTeam.type);
+        setTags(findTeam.tags);
+        setTeamPlayers(findTeam.players);
+        setTeamFormation(findTeam.teamFormation);
+      }
     }
-  }, [id, user.teams]);
+  }, [user]);
 
   const RenderSearchList = useCallback(() => search.players.map((player) => (
     <PlayerCard
@@ -205,7 +215,10 @@ function Team() {
   )), [search, teamPlayers]);
 
   const RenderPlayers = useCallback(() => {
-    const players = teamPlayers.sort((a, b) => a.position - b.position);
+    let players = INITIAL_TEAM;
+    if (teamPlayers) {
+      players = teamPlayers.sort((a, b) => a.position - b.position);
+    }
 
     const {
       defense, middle, middleOff, attack,
