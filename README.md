@@ -1,6 +1,6 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-Look for [demo](https://venturus-challenge.netlify.app)
+Look for [demo](https://venturus-challenge.netlify.app).
 
 ## How to develop
 
