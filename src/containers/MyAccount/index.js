@@ -8,7 +8,6 @@ import Panel from 'components/Panel';
 import Select from 'components/Select';
 import List from 'components/List';
 import Button from 'components/Button';
-import Placeholder from 'components/Placeholder';
 import BaseLayout from 'components/BaseLayout';
 import BaseColumn from 'components/BaseColumn';
 import UserPick from 'components/UserPick';
