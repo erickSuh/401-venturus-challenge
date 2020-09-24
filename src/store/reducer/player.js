@@ -9,7 +9,10 @@ const INITIAL_STATE = {
     initials: '',
     rating: '',
   },
-  topPicks: [],
+  topTeams: {
+    high: [],
+    low: [],
+  },
 };
 
 export default function teams(state = INITIAL_STATE, action) {

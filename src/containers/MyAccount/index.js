@@ -12,6 +12,7 @@ import Placeholder from 'components/Placeholder';
 import BaseLayout from 'components/BaseLayout';
 import BaseColumn from 'components/BaseColumn';
 import UserPick from 'components/UserPick';
+import SimpleList from 'components/SimpleList';
 
 import { actionUserEdit, actionPlayerFetch, actionUserFetch } from 'store/actions';
 
@@ -36,6 +37,10 @@ function MyAccount() {
   const [filterDescription, setFilterDescription] = useState('-1');
   const [mostPicked, setMostPicked] = useState(INITIAL_STATE_PICKED);
   const [lessPicked, setLessPicked] = useState(INITIAL_STATE_PICKED);
+  const [topTeams, setTopTeams] = useState({
+    high: [],
+    low: [],
+  });
 
   useEffect(() => {
     const { name: mostName } = player.mostPicked;
@@ -48,6 +53,7 @@ function MyAccount() {
       ...player.lessPicked,
       initials: getInitials(lessName),
     });
+    setTopTeams(player.topTeams);
   }, [player]);
 
   useEffect(() => {
@@ -166,8 +172,11 @@ function MyAccount() {
           </Panel>
         </BaseColumn>
         <BaseColumn>
-          <Panel>
-            <Placeholder height="350px" />
+          <Panel header="TOP 5">
+            <div style={{ display: 'flex', width: '100%' }}>
+              <SimpleList list={topTeams.high} />
+              <SimpleList list={topTeams.low} />
+            </div>
           </Panel>
           <Panel
             style={{

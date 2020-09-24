@@ -1,5 +1,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+Look for [demo](https://venturus-challenge.netlify.app)
+
 ## How to develop
 
 Follow the steps:
@@ -15,6 +17,8 @@ Follow the steps:
 5 - Access [http://localhost:3000](http://localhost:3000) and enjoy;
 
 The application has a backend development mock server on this [repository](https://github.com/erickSuh/203-dev-server); 
+
+Note: The application use a dev server and this dev server stop work after 30 minutes. If you first request delay, be cool, it's normal.
 
 ## Environment variable file sample
 
