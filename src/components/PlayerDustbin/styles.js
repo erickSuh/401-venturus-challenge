@@ -26,4 +26,27 @@ export const Content = styled.div`
     font-size: 36px;
     color: #fff;
   }
+
+  .tooltip {
+    position: relative;
+    display: inline-block;
+    font-size: 36px;
+  }
+
+  .tooltip .tooltiptext {
+    visibility: hidden;
+    width: 200px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: -100%;
+  }
+
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+  }
 `;

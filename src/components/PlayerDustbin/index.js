@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import { useDrop } from 'react-dnd';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 
 import { getInitials } from 'utils/string';
 
@@ -18,6 +19,7 @@ function selectBackgroundColor(isActive) {
 }
 
 function Dustbin({ allowedDropEffect, player, position }) {
+  const { t } = useTranslation('common');
   const [{ canDrop, isOver }, drop] = useDrop({
     accept: ItemTypes.BOX,
     drop: () => ({
@@ -32,7 +34,30 @@ function Dustbin({ allowedDropEffect, player, position }) {
   });
   const isActive = canDrop && isOver;
   const backgroundColor = selectBackgroundColor(isActive, canDrop);
-  const RenderContent = useCallback(() => (player && player.id ? getInitials(player.name) : <i className="material-icons">add</i>), [player]);
+  const RenderContent = useCallback(() => (player && player.id
+    ? (
+      <div className="tooltip">
+        {getInitials(player.name)}
+        <span className="tooltiptext">
+          {t('name')}
+          :
+          {' '}
+          {player.name}
+          <br />
+          {t('age')}
+          :
+          {' '}
+          {player.age}
+          <br />
+          {t('nationality')}
+          :
+          {' '}
+          {player.nationality}
+        </span>
+      </div>
+    )
+    : (<i className="material-icons">add</i>)
+  ), [player, t]);
 
   return (
     <Container ref={drop}>
